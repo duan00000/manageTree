@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="order by dede58.com"/>
+    <title>电力平台</title>
+    <link rel="stylesheet" type="text/css" href="/static/front/css/style.css">
+    <link rel="stylesheet" href="/static/front/css/swiper.min.css">
+    <script src="/static/front/js/jquery-1.10.1.js"></script>
+    <script src="/static/front/js/swiper.min.js"></script>
+    <script src="/static/front/js/base.js"> </script>
+
+
+</head>
+<body>
+<!-- start header -->
+<header>
+    <div class="top center">
+        <div class="left fl">
+            <ul>
+                {{range $key,$value := .topNavList}}
+                    <li><a href="{{$value.Link}}" {{if eq $value.IsOpennew 2}} target="_blank" {{end}}>{{$value.Title}}</a></li>
+                {{end}}
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="right fr">
+            <div class="gouwuche fr"><a href="/cart">我的订单</a></div>
+            <div class="fr">
+                {{str2html .userinfo}}
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</header>
+<!--end header -->
+
+<!--banner抽离到banner.html -->
+

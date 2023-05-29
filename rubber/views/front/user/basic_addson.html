@@ -1,0 +1,62 @@
+{{template "../public/page_header0.html" .}}
+
+<div class="container-fluid" style="border: 1px solid #000000; width: 900px; height: 500px;margin: 0 auto;border:none;" >
+  <div class="row">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        dsm平台子用户
+      </div>
+      <div>
+        用户号找不到：&nbsp&nbsp&nbsp&nbsp   已签约的用户： &nbsp&nbsp&nbsp&nbsp     dsmNo重复的用户：&nbsp&nbsp&nbsp&nbsp
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive input-form">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead>
+              <tr class="th">
+                <th>序号</th>
+                <th>用户名</th>
+                <th>用户号</th>
+                <th>地区</th>
+                <th>已签约集成商</th>
+
+
+              </tr>
+              </thead>
+              <tbody>
+              {{range $key,$value:= .Need}}
+              <tr>
+                <td>{{$value.Id}}</td>
+                <td>{{$value.Id}}</td>
+                <td>{{$value.Id}}</td>
+                <td>{{$value.Id}}</td>
+                <td>{{$value.Id}}</td>
+
+
+              </tr>
+              {{end}}
+              </tbody>
+
+            </table>
+
+            <div id="pagination1" class="pagination fr">
+              <li>
+                <br/>
+                <button type="submit" class="btn btn-primary">确定</button>
+                <input class="prevPage_btn" type="button" id="prevPage" value="关闭">
+
+              </li>
+            </div>
+          </div>
+
+
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+    </body>
+    </html>

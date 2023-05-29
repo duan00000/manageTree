@@ -1,0 +1,97 @@
+{{template "../../public/page_header.html" .}}
+<style>
+    body {
+        background-color: #f2f2f2;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default" >
+            <div class="panel-heading" style="background: #d4e3e5">
+                节点信息溯源
+                <span class="head-span">--节点编号:{{.treeId}}</span>
+            </div>
+
+            <div class="panel-body" >
+                <div class="table-responsive input-form news_content">
+                    <form enctype="multipart/form-data">
+                        <div class="detail-item-warpper">
+
+                            <span id="myspan0" class="tit-span">溯源信息</span>
+                            <hr style="height:10px;border:none;border-top:10px groove skyblue;"/>
+
+                            <ul class="ulbox">
+                                <li>
+                                    <span id="myspan">{{.data}}</span>
+                                </li>
+
+
+                            </ul>
+
+                            <input class="prevPage_btn" type="button" id="prevPage" value="返回上一页">
+
+
+                        </div>
+                    </form>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+<style type="text/css">
+
+    .detail-item-warpper {
+        margin-bottom: 10px;
+        padding: 20px 32px;
+        background-color: #fff;
+    }
+    .ulbox {
+        overflow: hidden;
+    }
+    li {
+        min-width: 280px;
+        padding-bottom: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+        float: left;
+    }
+    span {
+        width: 120px;
+
+    }
+    .input-form li span{
+        display: inline-block;
+        width:auto
+    }
+    .tit-span{
+        font-size: 20px;
+        color:#777777;
+        font-weight: bold;
+    }
+    .tit-span2{
+        font-size: 16px;
+        color:#777777;
+    }
+    .panel-heading{
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .head-span{
+        font-size: 16px;
+        color:#2a6496;
+    }
+</style>
+<script>
+    document.getElementById('myspan').style.fontSize='18px';
+    document.getElementById('myspan1').style.fontSize='25px';
+</script>

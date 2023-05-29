@@ -1,0 +1,184 @@
+{{template "../public/page_header.html"}}
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+</style>
+<script type="text/javascript" src="/static/admin/js/jqPaginator.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="background: #d4e3e5">
+        <a href="/{{config "String" "adminPath" ""}}/goods/add" class="btn btn-primary">增加无人机</a>
+    </div>
+    <!--
+        搜索展示
+        -->
+    <div class="panel-body">
+        <form role="form" class="form-inline" method="get" action="/{{config "String" "adminPath" ""}}/goods">
+            <div class="form-group">
+                <label for="name">输入关键词</label>
+                <input type="text" class="form-control" value="{{.keyword}}" id="keyword" name="keyword" placeholder="请输入名称">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class=" btn btn-default">开始搜索</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="panel-body">
+        <!--
+        列表展示
+        -->
+        <div class="table-responsive">
+            <table class="hovertable" id="tab">
+                <thead>
+                <tr class="th">
+                    <th>无人机编号</th>
+                    <th>所在区域</th>
+                    <th>无人机类型</th>
+                    <th>是否闲置</th>
+                    <th>电量是否充足</th>
+                    <th>是否存在故障</th>
+                    <th>是否等待起飞</th>
+
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $key,$value:= .goodsList}}
+                    <tr>
+                        <td>{{$value.Id}}</td>
+                        <td>
+                            {{if eq $value.Price 1.0}}
+                                西部橡胶林区
+                            {{else if eq $value.Price 2.0}}
+                                中部橡胶林区
+                            {{else}}
+                                东部橡胶林区
+                            {{end}}
+                        </td>
+                        <td>
+                            {{if eq $value.MarketPrice 1.0}}
+                                小型无人机
+                            {{else if eq $value.MarketPrice 2.0}}
+                                中型无人机
+                            {{else}}
+                                大型无人机
+                            {{end}}
+                        </td>
+                        <td class="text-center">
+                            {{if eq $value.Status 1}}
+                                <img class="chStatus" src="/static/admin/images/yes.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="goods" data-field="status"/>
+                            {{else}}
+                                <img class="chStatus" src="/static/admin/images/no.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="goods" data-field="status"/>
+                            {{end}}
+                        </td>
+                        <td class="text-center">
+                            {{if eq $value.IsBest 1}}
+                                <img class="chStatus" src="/static/admin/images/yes.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="goods" data-field="is_best"/>
+                            {{else}}
+                                <img class="chStatus" src="/static/admin/images/no.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="goods" data-field="is_best"/>
+                            {{end}}
+                        </td>
+
+                        <td class="text-center">
+                            {{if eq $value.IsNew 1}}
+                                <img class="chStatus" src="/static/admin/images/yes.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="goods" data-field="is_new"/>
+                            {{else}}
+                                <img class="chStatus" src="/static/admin/images/no.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="goods" data-field="is_new"/>
+                            {{end}}
+                        </td>
+
+                        <td class="text-center">
+                            {{if eq $value.IsHot 1}}
+                                <img class="chStatus" src="/static/admin/images/yes.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="goods" data-field="is_hot"/>
+                            {{else}}
+                                <img class="chStatus" src="/static/admin/images/no.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="goods" data-field="is_hot"/>
+                            {{end}}
+                        </td>
+
+
+                        <td class="text-center">
+                            <a href="/{{config "String" "adminPath" ""}}/goods/edit?id={{$value.Id}}">修改</a> 　
+                            <a class="delete" href="/{{config "String" "adminPath" ""}}/goods/delete?id={{$value.Id}}">删除</a>
+
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+            <div id="pagination" class="pagination fr">
+            </div>
+        </div>
+        <div class="goods_Page">
+            每页显示商品数:{{.pageSize}}，
+            商品总数：{{.totalCount}}
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#pagination").jqPaginator({
+            //页数
+            totalPages: {{.totalPages}},
+            //每页数量
+            pageSize:  {{.pageSize}},
+            //当前第几页
+            currentPage: {{.page}},
+            /*
+            一开始加载分页插件就会激活这个函数，以后点击任何一个页面按钮也会激活这个事件
+            有两个参数：
+            1. num表示点第几页
+            2. type表示操作类型，有两个取值：init表示第1次加载 change表示后面的点击
+             */
+            onPageChange: function (num, type) {
+                // console.log(num, type)
+                if (type === "change") {
+                    location.href = "/{{config "String" "adminPath" ""}}/goods?page=" + num+"&keyword={{.keyword}}";
+                }
+            }
+        });
+    })
+
+</script>
+</body>
+</html>

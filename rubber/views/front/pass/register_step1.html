@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="order by dede58.com" />
+	<title>用户注册</title>
+	<link rel="stylesheet" href="/static/front/css/login.css" />
+	<script src="/static/front/js/jquery-1.10.1.js"></script>
+</head>
+
+<body class="register_page">
+
+<div class="regist">
+	<div class="regist_center">
+
+		<div class="logo">
+			<img src="/static/front/image/logo_top.png" alt="电力">
+		</div>
+		<div class="regist_top">
+			<h2>注册电力账户</h2>
+		</div>
+		<div class="regist_main center">
+
+			<input class="form_input" type="text" name="phone" id="phone" placeholder="请填写正确的手机号" />
+
+			<div class="yzm">
+				<input type="text" id="photo_code" name="photo_code" placeholder="请输入图形验证码" />
+				{{create_captcha}}
+			</div>
+			<div class="error"></div>
+			<div class="regist_submit">
+				<button class="submit" id="registerButton">
+					立即注册
+				</button>
+			</div>
+
+
+			<br>
+			<br>
+			<div class="privacy_box">
+				<div class="msg">
+					<label class="n_checked now select-privacy">
+						<input type="checkbox" checked="true" /> 注册帐号即表示您同意并愿意遵守 <a
+								href="#"
+								class="inspect_link " title="用户协议" target="_blank">用户协议</a>和<a
+								href="#"
+								title=" 隐私政策 " target="_blank"> 隐私政策 </a>
+					</label>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+	<script src="/static/front/js/register.js"> </script>
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+
+{{template "../../public/page_header.html"}}
+
+<script type="text/javascript" src="/static/admin/js/jqPaginator.js"></script>
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    body {
+        background-color: #f2f2f2;
+    }
+</style>
+<div class="panel panel-default" style="background-color: #f2f2f2;">
+    <div class="panel-heading" style="background: #d4e3e5">
+        <a href="/{{config "String" "adminPath" ""}}/treeInformation/add" class="btn btn-primary">增加林区</a>
+    </div>
+    <!--
+        搜索展示
+        -->
+    <div class="panel-body">
+        <form role="form" class="form-inline" method="get" action="/{{config "String" "adminPath" ""}}/treeInfoList">
+            <div class="form-group">
+                <label for="name">输入关键词</label>
+                <input type="text" class="form-control" value="{{.keyword}}" id="keyword" name="keyword" placeholder="请输入名称">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class=" btn btn-default">开始搜索</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="panel-body">
+        <!--
+        列表展示
+        -->
+        <div class="table-responsive">
+            <table class="table table-bordered hovertable">
+                <thead>
+                <tr class="th">
+                    <th>序号</th>
+                    <th>林区编号</th>
+                    <th>所属林区</th>
+                    <th class="text-center">林区数据</th>
+                    <th class="text-center">是否可割胶</th>
+                    <th class="text-center">割胶方式</th>
+                    <th class="text-center">溯源信息</th>
+                    <th class="text-center">数据修改</th>
+                    <th class="text-center">路径规划</th>
+                    <th class="text-center">历史数据</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                {{range $key,$value:= .treeInfoList}}
+                    <tr>
+                        <td>{{$value.Id}}</td>
+                        <td>{{$value.TreeId}}</td>
+                        <td>{{$value.TreeName}}</td>
+                        <td class="text-center">
+
+                            {{if eq  $value.TreeName "西部橡胶林区"}}
+                            <a href="/{{config "String" "adminPath" ""}}/treeInformation/queryTree1?treeId={{$value.TreeId}}">查询</a>
+                            {{else if eq $value.TreeName "中部橡胶林区"}}
+                             <a href="/{{config "String" "adminPath" ""}}/treeInformation/queryTree2?treeId={{$value.TreeId}}">查询</a>　
+                            {{else}}
+                            <a href="/{{config "String" "adminPath" ""}}/treeInformation/queryTree3?treeId={{$value.TreeId}}">查询</a>
+                            {{end}}
+
+                        </td>
+                        <td class="text-center">
+
+                            {{if eq  $value.TreeName "西部橡胶林区"}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/isOpen1?treeId={{$value.TreeId}}">上链</a>
+                            {{else if eq $value.TreeName "中部橡胶林区"}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/isOpen2?treeId={{$value.TreeId}}">上链</a>　
+                            {{else}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/isOpen3?treeId={{$value.TreeId}}">上链</a>
+                            {{end}}
+
+                        </td>
+                        <td class="text-center">
+                            {{if eq  $value.TreeName "西部橡胶林区"}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/onJudge1?treeId={{$value.TreeId}}">上链</a> 　
+                            {{else if eq $value.TreeName "中部橡胶林区"}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/onJudge2?treeId={{$value.TreeId}}">上链</a> 　
+                            {{else}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/onJudge3?treeId={{$value.TreeId}}">上链</a> 　
+                            {{end}}
+                        </td>
+                        <td class="text-center">
+                            {{if eq  $value.TreeName "东部橡胶林区"}}
+
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/trace?treeId={{$value.TreeId}}">溯源</a>
+                               　
+
+
+                            {{else}}
+                                <a>无法查询</a>
+                            {{end}}
+                        </td>
+                        <td class="text-center">
+                        <a href="/{{config "String" "adminPath" ""}}/treeInformation/edit?id={{$value.Id}}">修改</a>
+                        </td>
+                        <td class="text-center">
+                            {{if eq  $value.TreeName "西部橡胶林区"}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/plan?treeId={{$value.TreeId}}">规划</a> 　
+
+                            {{else}}
+                                <a>无法规划</a>
+                            {{end}}
+                        </td>
+                        <td class="text-center">
+
+                            {{if eq  $value.TreeName "西部橡胶林区"}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/history1?treeId={{$value.TreeId}}">查询</a>
+                            {{else if eq $value.TreeName "中部橡胶林区"}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/history2?treeId={{$value.TreeId}}">查询</a>　
+                            {{else}}
+                                <a href="/{{config "String" "adminPath" ""}}/treeInformation/history3?treeId={{$value.TreeId}}">查询</a>
+                            {{end}}
+
+                        </td>
+
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+            <div id="pagination" class="pagination fr">
+            </div>
+        </div>
+        <div class="goods_Page">
+            每页显示数量:{{.pageSize}}，
+            总数：{{.totalCount}}
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+        $("#pagination").jqPaginator({
+            //页数
+            totalPages: {{.totalPages}},
+            //每页数量
+            pageSize:  {{.pageSize}},
+            //当前第几页
+            currentPage: {{.page}},
+            /*
+            一开始加载分页插件就会激活这个函数，以后点击任何一个页面按钮也会激活这个事件
+            有两个参数：
+            1. num表示点第几页
+            2. type表示操作类型，有两个取值：init表示第1次加载 change表示后面的点击
+             */
+            onPageChange: function (num, type) {
+                // console.log(num, type)
+                if (type === "change") {
+                    location.href = "/{{config "String" "adminPath" ""}}/tree?page=" + num+"&keyword={{.keyword}}";
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

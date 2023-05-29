@@ -1,0 +1,354 @@
+{{template "../../public/page_header.html" .}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background: #d4e3e5">
+                审核校验
+                <span class="head-span">--订单号:{{.orderDemand.OrderId}}</span>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive input-form news_content">
+                    <form action="/{{config "String" "adminPath" ""}}/responseManagement/doVerify" method="post" enctype="multipart/form-data">
+                            <div class="detail-item-warpper">
+                                {{$orderStaus := .respondManager.OrderStatus}}
+                                {{$orderId := .respondManager.OrderId}}
+
+                                <span class="tit-span">基本信息</span>
+                                  <ul class="ulbox">
+                                    <li>
+                                        <span>总用户号:</span> <span>{{.orderDemand.Uid}}</span>
+                                    </li>
+                                    <li>
+                                        <span>用户类型:</span> <span>
+                                            {{if eq .orderDemand.UserType 1}}
+                                                普通用户
+                                            {{else if eq .orderDemand.UserType 2}}
+                                                高级用户
+                                            {{else}}
+                                                负荷集成商
+                                             {{end}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                    <li>
+                                        <span>用户名称:</span> <span>{{.orderDemand.CName}}</span>
+                                    </li>
+                                    <li>
+                                        <span>地区:</span> <span>{{.orderDemand.Address}}</span>
+                                    </li>
+                                    <li>
+                                        <span>签约编号:</span> <span>{{.respondManager.ContractNo}}</span>
+                                    </li>
+                                    <li>
+                                        <span>参与年份:</span> <span>{{.orderBasic.JoinY}}</span>
+                                    </li>c
+                                    <li>
+                                        <span>第一联系人:</span> <span>{{.orderBasic.FirLiaison}}</span>
+                                    </li>
+                                    <li>
+                                        <span>第一联系人电话:</span> <span>{{.orderBasic.FirLiaisonWay}}</span>
+                                    </li>
+                                    <li>
+                                        <span>第二联系人:</span> <span>{{.orderBasic.SecLiaison}}</span>
+                                    </li>
+                                    <li>
+                                        <span>第二联系人电话:</span> <span>{{.orderBasic.SecLiaisonWay}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需林区数量:</span> <span>{{.orderBasic.ContractCap}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需无人机数量:</span> <span>{{.orderBasic.RunningCap}}</span>
+                                    </li>
+                                    <li>
+                                        <span>联系地址:</span> <span>{{.orderBasic.LinkAddress}}</span>
+                                    </li>
+                                    <li>
+                                        <span>公司经营许可证:</span> <span>{{.orderBasic.TRC}}</span>
+                                    </li>
+                                    <li>
+                                        <span>是否符合下单条件:</span>
+                                        <span>
+                                            {{if eq .orderBasic.MonIns 0}}
+                                                符合
+                                            {{else}}
+                                                不符合
+                                            {{end}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>订单价格:</span> <span>{{.orderBasic.BiddingPrice}}</span>
+                                    </li>
+                                      <li hidden>
+                                          <span>订单号：</span>
+                                          <input type="text" id="order_id" name="order_id" class="input" value="{{.orderDemand.OrderId}}" />
+                                      </li>
+
+                                  </ul>
+                                  <hr style="height:10px;border:none;border-top:10px groove skyblue;"/>
+                                <span class="tit-span">可调用无人机</span>
+                                <p> </p>
+                                <span class="tit-span2">待签约用户</span>
+                                <ul class="ulbox">
+                                        <li>
+                                            <span>用户号:</span> <span>{{.orderDevice.TUid}}</span>
+                                        </li>
+                                        <li>
+                                            <span>用户名称:</span> <span>{{.orderDevice.CName}}</span>
+                                        </li>
+                                        <li>
+                                            <span>地区:</span> <span>{{.orderDevice.CAddress}}</span>
+                                        </li>
+                                        <li>
+                                            <span>交易量:</span> <span>{{.orderDevice.BeResponse}}</span>
+                                        </li>
+                                        <li>
+                                            <span>联系电话:</span> <span>{{.orderDevice.CPhone}}</span>
+                                        </li>
+                                        <li>
+                                            <span>所需红关公橡皮树数量:</span> <span>{{.orderDevice.TimeRespond1}}</span>
+                                        </li>
+                                        <li>
+                                            <span>所需小叶橡皮树数量:</span> <span>{{.orderDevice.TimeRespond2}}</span>
+                                        </li>
+                                        <li>
+                                            <span>所需红黑金刚橡皮树数量:</span> <span>{{.orderDevice.TimeRespond3}}</span>
+                                        </li>
+                                        <li>
+                                            <span>所需花叶橡皮树数量:</span> <span>{{.orderDevice.TimeRespond4}}</span>
+                                        </li>
+                                </ul>
+                                        <span class="tit-span2">平台无人机</span>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr class="th">
+                                                    <th>参与无人机</th>
+                                                    <th>已起降次数</th>
+                                                    <th>无人机电量</th>
+                                                    <th>是否待起飞</th>
+                                                    <th>电量是否充足</th>
+                                                    <th>故障状态</th>
+                                                    <th>所需价格</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {{range $key,$value:= .dsmUserDevice}}
+                                                    <tr>
+                                                        <td>{{$value.NextDevice}}</td>
+
+                                                        <td>{{$value.NextPoint}}</td>
+                                                        <td>{{$value.NextVolume}}</td>
+                                                        <td>
+                                                            {{if eq $value.NextSee 1}}
+                                                                是
+                                                            {{else}}
+                                                                否
+                                                            {{end}}
+                                                        </td>
+                                                        <td>
+                                                            {{if eq $value.NextJoin 1}}
+                                                                是
+                                                            {{else}}
+                                                                否
+                                                            {{end}}</td>
+                                                        <td>{{if eq $value.NextMethod 1}}
+                                                                是
+                                                            {{else}}
+                                                                否
+                                                            {{end}}</td>
+                                                        <td>{{$value.NextRespond}}</td>
+
+                                                    </tr>
+                                                {{end}}
+                                                </tbody>
+                                             </table>
+
+                                <hr style="height:10px;border:none;border-top:10px groove skyblue;"/>
+                                <span class="tit-span">所需商品</span>
+                                <p> </p>
+                                <span class="tit-span2">所需橡胶树数（单位：株）</span>
+                                <ul class="ulbox">
+                                    <li>
+                                        <span>所需红关公橡皮树数量 :</span> <span>{{.orderCap.MTFz}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需小叶橡皮树数量 :</span> <span>{{.orderCap.MTFm}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需黑金刚橡皮树数量 :</span> <span>{{.orderCap.MTFw}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需小叶橡皮树数量 :</span> <span>{{.orderCap.MTFn}}</span>
+                                    </li>
+                                    </ul>
+                                   <span class="tit-span2">所需无人机数量（单位：个））</span>
+                                    <ul class="ulbox">
+
+                                    <li>
+                                        <span>所需小型无人机数量 :</span> <span>{{.orderCap.WFz}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需中型无人机数量 :</span> <span>{{.orderCap.WFm}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需大型无人机数量 :</span> <span>{{.orderCap.WFw}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需微型无人机数量 :</span> <span>{{.orderCap.WFn}}</span>
+                                    </li>
+                                    <li>
+                                        <span>是否符合下单条件:</span> <span>
+                                            {{if eq .orderCap.CanResponse 1}}
+                                                是
+                                            {{else}}
+                                                否
+                                            {{end}}
+                                        </span>
+                                    </li>
+                                </ul>
+                                <hr style="height:10px;border:none;border-top:10px groove skyblue;"/>
+                                <span class="tit-span">小组初审：</span>
+                                {{if eq $orderStaus 4 }}
+                                     <span style="color: #43A047">审核通过</span>
+                                {{else if eq $orderStaus 5}}
+                                    <span style="color: #43A047">审核通过</span>
+                                {{else}}
+                                    {{$firstTrial := .respondManager.FirstTrial}}
+                                    <select name="first_trial_id" id="first_trial_id" style="width: 100px; height:30px " onchange="verifyPass()">
+                                        {{range $key,$value:= .verifySelect}}
+                                        <option  value="{{$value.Id}}" {{if eq $value.Id $firstTrial }} selected {{end}}>{{$value.Value}}</option>
+                                            {{end}}
+                                    </select>
+                                {{end}}
+                                <hr style="height:10px;border:none;border-top:10px groove skyblue;"/>
+
+                                <span class="tit-span">主管复审：</span>
+                                {{if eq $orderStaus 4 }}
+                                <span style="color: #43A047">审核通过</span>
+                                {{else if eq $orderStaus 5}}
+                                <span style="color: #43A047">审核通过</span>
+                                {{else}}
+                                {{$review := .respondManager.Review}}
+                                <select name="review_trial_id" id="review_trial_id" style="width: 100px; height:30px"   >
+                                    {{range $key,$value:= .verifySelect}}
+                                        <option  value="{{$value.Id}}" {{if eq $value.Id $review }} selected {{end}}>{{$value.Value}}</option>
+                                    {{end}}
+                                </select>
+                                {{end}}
+                                <p>
+                                <p/>
+
+                                {{if eq $orderStaus 2 }}
+                                    <input class="prevPage_btn" type="button" id="prevPage" value="返回上一页">
+                                    <button type="submit" class="btn btn-success goods_content_btn" >提交</button>
+                                {{else if eq $orderStaus 3}}
+                                    <input class="prevPage_btn" type="button" id="prevPage" value="返回上一页">
+                                    <button type="submit" class="btn btn-success goods_content_btn" >提交</button>
+                                {{else if eq $orderStaus 1}}
+                                    <input class="prevPage_btn" type="button" id="prevPage" value="返回上一页">
+                                    <button type="submit" class="btn btn-success goods_content_btn" >提交</button>
+                                {{else if eq $orderStaus 5}}
+                                    <input class="prevPage_btn" type="button" id="prevPage" value="返回上一页">
+                                {{else}}
+                                {{end}}
+                            </div>
+                    </form>
+                    <form action="/{{config "String" "adminPath" ""}}/responseManagement/doConfirm" method="post" enctype="multipart/form-data">
+                        <li hidden>
+                            <span>订单号：</span>
+                            <input type="text" id="order_id" name="order_id" class="input" value="{{$orderId}}" />
+                        </li>
+                        {{if eq $orderStaus 4 }}
+                            <input class="prevPage_btn" type="button" id="prevPage" value="返回上一页">
+                            <button type="submit" class="btn btn-success goods_content_btn" >确认完成</button>
+                        {{end}}
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+<script>
+    $(function () {
+        var firstId = document.getElementById("first_trial_id");
+        if (firstId == null){
+        }else {
+            var firstValue = firstId.options[firstId.selectedIndex].value;
+            if (firstValue === "2" ){
+                $("#review_trial_id").hide()
+                alert("初审拒绝，复审不能选择");
+            }else if(firstValue === "1"){
+
+            }else {
+                $("#review_trial_id").hide()
+                alert("初审通过，复审才能选择");
+            }
+        }
+
+    })
+    function verifyPass() {
+        var firstId = document.getElementById("first_trial_id");
+        var firstValue = firstId.options[firstId.selectedIndex].value;
+        if (firstValue === "2" ){
+            $("#review_trial_id").hide()
+            alert("初审拒绝，复审不能选择");
+        }else if (firstValue === "1" ){
+            $("#review_trial_id").show()
+        }else {
+            $("#review_trial_id").hide()
+            alert("初审通过，复审才能选择");
+        }
+        if (firstValue === "2" && reviewValue === "1" ){
+            alert("初审通过，才能进行复审审核");
+        }
+    }
+</script>
+<style type="text/css">
+    .detail-item-warpper {
+        margin-bottom: 10px;
+        padding: 20px 32px;
+        background-color: #fff;
+    }
+    .ulbox {
+        overflow: hidden;
+    }
+    li {
+        min-width: 280px;
+        padding-bottom: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+        float: left;
+    }
+    span {
+        width: 120px;
+        line-height: 20px;
+    }
+    .input-form li span{
+        display: inline-block;
+        width:auto
+    }
+    .tit-span{
+        font-size: 20px;
+        color:#777777;
+        font-weight: bold;
+    }
+    .tit-span2{
+        font-size: 16px;
+        color:#777777;
+    }
+    .panel-heading{
+             font-size: 18px;
+             font-weight: bold;
+         }
+    .head-span{
+        font-size: 16px;
+        color:#2a6496;
+    }
+</style>

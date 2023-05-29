@@ -1,0 +1,87 @@
+{{template "../public/page_header.html"}}
+<!-- CSS goes in the document HEAD or added to your external stylesheet -->
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading clear" style="background: #d4e3e5">
+                <a href="/{{config "String" "adminPath" ""}}/goodsCate/add" class="btn btn-primary">增加无人机类型</a>
+            </div>
+            <!--
+                列表展示
+            -->
+            <div class="table-responsive">
+                <table class="hovertable">
+                    <thead>
+                    <tr class="th">
+                        <th>无人机类型名称</th>
+                        <th>无人机类型描述</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{range $key,$value := .goodsTypeList}}
+
+                        <tr>
+                            <td>{{$value.Title}}</td>
+                            <td>{{$value.Description}}</td>
+
+                            <td class="text-center">
+
+                                {{if eq $value.Status 1}}
+                                    <img src="/static/admin/images/yes.png" width="40" class="chStatus" data-id="{{$value.Id}}" data-table="goods_type" data-field="status" />
+                                {{else}}
+                                    <img src="/static/admin/images/no.png" width="40" class="chStatus" data-id="{{$value.Id}}" data-table="goods_type" data-field="status" />
+                                {{end}}
+                            </td>
+
+
+                            <td class="text-center">
+                                <a href="/{{config "String" "adminPath" ""}}/goodsTypeAttribute?cate_id={{$value.Id}}">属性列表</a>　
+
+                                <a href="/{{config "String" "adminPath" ""}}/goodsType/edit?id={{$value.Id}}">修改</a> 　
+                                <a class="delete"
+                                   href="/{{config "String" "adminPath" ""}}/goodsType/delete?id={{$value.Id}}">删除</a>
+
+                            </td>
+                        </tr>
+
+                    {{end}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

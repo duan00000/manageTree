@@ -1,0 +1,164 @@
+{{template "../public/page_header.html" .}}
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row panel panel-default" style="background-color: #00b7ee">
+        <div class="panel-heading">
+            <button class="btn btn-primary" id="submitRef">同步到左侧列表</button>
+        </div>
+        <div class="table-responsive" id="table-responsive">
+            <table class="hovertable" id="tab">
+                <thead>
+                <tr class="th">
+                    <th>模块名称</th>
+                    <th>节点类型</th>
+                    <th>操作名称</th>
+                    <th>操作地址</th>
+                    <th>排序</th>
+                    <th>描述</th>
+                    <th>状态</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $key,$value := .accessList}}
+                    <tr class="access_list">
+                        <td class="show_access_list">{{$value.ModuleName}}
+                            <img class="chShowAccess" src="/static/admin/images/hide_more.png"  data-id="{{$value.Id}}"
+                                 data-table="access" alt="展示"/>
+                        </td>
+                        <td>
+                            {{if eq $value.Type 1}}
+                                模块
+                            {{else if eq $value.Type 2}}
+                                菜单
+                            {{else}}
+                                操作
+                            {{end}}
+                        </td>
+                        <td>{{$value.ActionName}}</td>
+                        <td>{{$value.Url}}</td>
+                        <td><span class="chSpanNum" data-id="{{$value.Id}}" data-table="access" data-field="sort"
+                                  data-num="{{$value.Sort}}">{{$value.Sort}}</span></td>
+                        <td>{{$value.Description}}</td>
+                        <td class="text-center">
+                            {{if eq $value.Status 1}}
+                                <img class="chStatus" src="/static/admin/images/yes.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="access" data-field="status"/>
+                            {{else}}
+                                <img class="chStatus" src="/static/admin/images/no.png" width="40"
+                                     data-id="{{$value.Id}}"
+                                     data-table="access" data-field="status"/>
+                            {{end}}
+                        </td>
+                        <td class="text-center">
+                            <a href="/{{config "String" "adminPath" ""}}/access/edit?id={{$value.Id}}">编辑</a>　
+                            <a class="delete"
+                               href="/{{config "String" "adminPath" ""}}/access/delete?id={{$value.Id}}">删除</a>
+                        </td>
+                    </tr>
+                    {{range $k,$v := $value.AccessItem}}
+                        <tr class="hide_table" id="{{$v.Id}}">
+                            <td>--{{$v.ModuleName}}</td>
+                            <td>　
+                                {{if eq $v.Type 1}}
+                                    模块
+                                {{else if eq $v.Type 2}}
+                                    菜单
+                                {{else}}
+                                    操作
+                                {{end}}
+                            </td>
+                            <td>　{{$v.ActionName}}</td>
+                            <td>　{{$v.Url}}</td>
+                            <td><span class="chSpanNum"  data-id="{{$v.Id}}" data-table="access" data-field="sort"
+                                      data-num="{{$v.Sort}}">{{$v.Sort}}</span></td>
+                            <td>　{{$v.Description}}</td>
+                            <td class="text-center">
+                                {{if eq $v.Status 1}}
+                                    <img class="chStatus" src="/static/admin/images/yes.png" width="40"
+                                         data-id="{{$v.Id}}"
+                                         data-table="access" data-field="status"/>
+                                {{else}}
+                                    <img class="chStatus" src="/static/admin/images/no.png" width="40"
+                                         data-id="{{$v.Id}}"
+                                         data-table="access" data-field="status"/>
+                                {{end}}
+                            </td>
+
+                            <td class="text-center">
+                                <a href="/{{config "String" "adminPath" ""}}/access/edit?id={{$v.Id}}">修改</a>　
+                                <a href="/{{config "String" "adminPath" ""}}/access/delete?id={{$v.Id}}">删除</a>
+                            </td>
+                        </tr>
+                    {{end}}
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="/static/admin/js/access.js">
+    window.onload = function(){
+        var tab = document.getElementById("tab");
+        var maxCol = 8, val, count, start;
+
+        for(var col = maxCol-1; col >= 0 ; col--){
+            count = 1;
+            val = "";
+            for(var i=0; i<tab.rows.length; i++){
+                if(val == tab.rows[i].cells[col].innerHTML){
+                    count++;
+                }else{
+                    if(count > 1){ //合并
+                        start = i - count;
+                        tab.rows[start].cells[col].rowSpan = count;
+                        for(var j=start+1; j<i; j++){
+                            tab.rows[j].cells[col].style.display = "none";
+                        }
+                        count = 1;
+                    }
+                    val = tab.rows[i].cells[col].innerHTML;
+                }
+            }
+            if(count > 1 ){ //合并，最后几行相同的情况下
+                start = i - count;
+                tab.rows[start].cells[col].rowSpan = count;
+                for(var j=start+1; j<i; j++){
+                    tab.rows[j].cells[col].style.display = "none";
+                }
+            }
+        }
+    };
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+{{template "../../public/page_header.html" .}}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background: #d4e3e5">
+                填写林区信息
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive input-form">
+                    <form action="/{{config "String" "adminPath" ""}}/treeInformation/onChain1" method="post" enctype="multipart/form-data">
+                        <ul>
+
+                            <input type="hidden" name="id"  value="{{.treeinfo.Id}}">
+                            <li> <span> 林区编号: </span> <input readonly type="text" name="treeno" class="input"
+                                                            value="{{.treeinfo.TreeId}}" /></li>
+
+                            <li> <span> 所属林区: </span> <input  type="text"  readonly value="{{.treeinfo.TreeName}}" name="treename" class="input"
+                                                             /></li>
+                            <li> <span> 添加日期: </span> <input  type="text" placeholder="请输入添加日期" name="date" class="input"
+                                                              /></li>
+
+                            <li> <span> 胶乳质量: </span> <input  type="text" placeholder="请输入胶乳质量" name="quality" class="input"
+                                /></li>
+                            <li> <span> 橡胶树状态: </span> <input  type="text" placeholder="请输入橡胶树状态" name="status" class="input"
+                                /></li>
+                            <li> <span> 湿润等级: </span> <input  type="text" placeholder="请输入湿润等级" name="grade" class="input"
+                                /></li>
+                            <li> <span> 横坐标: </span> <input  type="text" placeholder="请输入林区横坐标" name="heng" class="input"
+                                /></li>
+                            <li> <span> 纵坐标: </span> <input  type="text" placeholder="请输入林区纵坐标" name="zong" class="input"
+                                /></li>
+                            <li> <span> 是否可割胶: </span> <input  type="text" placeholder="请输入是否可割胶" name=open class="input"
+                                /></li>
+                            <li> <span> 温度: </span> <input  type="text" placeholder="请输入温度" name="tem" class="input"
+                                /></li>
+                            <li> <span> 湿润指数: </span> <input  type="text" placeholder="请输入湿润指数" name="hum" class="input"
+                                /></li>
+                            <li> <span> 所处时期: </span> <input  type="text" placeholder="请输入所处时期" name="phase" class="input"
+                                /></li>
+                            <li> <span> 风速: </span> <input  type="text" placeholder="请输入风速" name="speed" class="input"
+                                /></li>
+                            <li> <span> 割胶方式: </span> <input  type="text" placeholder="请输入割胶方式" name="method" class="input"
+                                /></li>
+                            <li> <span> 叶黄素占比: </span> <input  type="text" placeholder="请输入叶黄素占比" name="yellow" class="input"
+                                /></li>
+                            <li> <span> 割胶路径: </span> <input  type="text" placeholder="请输入割胶路径" name="way" class="input"
+                                /></li>
+                            <li> <span> 前一节点编号: </span> <input  type="text" placeholder="前一节点编号" name="fromid" class="input"
+                                /></li>
+
+
+
+
+                            <li>
+                                <br/>
+                                <input class="prevPage_btn" type="button" id="prevPage" value="返回上一页">
+
+                                <button type="submit" class="btn btn-default">提交</button>
+
+                            </li>
+
+                        </ul>
+
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

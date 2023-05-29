@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+<div >
+        <div id="NationalElePow" style="height: 470px"></div>
+        <div id="NationalElePow2" style="height: 470px"></div>
+</div>
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.2/dist/echarts.min.js"></script>
+<script type="text/javascript" src="/static/admin/bootstrap/js/jquery-1.10.1.js"></script>
+
+<script type="text/javascript">
+    var dom = document.getElementById("NationalElePow");
+    var myChart = echarts.init(dom);
+    var app = {};
+    var ROOT_PATH ="../../../static"
+    var option;
+    myChart.showLoading();
+    $.get(ROOT_PATH + '/admin/CHN.json', function (chnJson) {
+        myChart.hideLoading();
+        echarts.registerMap('CHN', chnJson, {
+        });
+        var data = [
+
+            { name: '北京市', value: 31433 },
+            { name: '天津市', value: 18008 },
+            { name: '河北省', value: 29651.6 },
+            { name: '山西省', value: 0 },
+            { name: '内蒙古自治区', value: 0 },
+            { name: '辽宁省', value:  60036.6 },
+            { name: '吉林省', value: 1514.7 },
+            { name: '黑龙江省', value: 9447.7 },
+            { name: '上海市', value: 220230 },
+            { name: '江苏省', value: 249837},
+            { name: '浙江省', value:  489117.3 },
+            { name: '安徽省', value: 56606.7 },
+            { name: '福建省', value:  76431.9 },
+            { name: '江西省', value: 4416 },
+            { name: '山东省', value: 882154.8 },
+            { name: '河南省', value:  22461.7 },
+            { name: '湖北省', value: 1743.8 },
+            { name: '湖南省', value: 202367.8 },
+            { name: '广东省', value: 129983.2 },
+            { name: '广西省', value: 84.7 },
+            { name: '海南省', value: 6416.3 },
+            { name: '重庆市', value: 12239.5 },
+            { name: '四川省 ', value:  5542.6 },
+            { name: '贵州省', value: 45804.2 },
+            { name: '云南省', value: 4575.9 },
+            { name: '西藏自治区', value:  0 },
+            { name: '陕西省', value: 463.5 },
+            { name: '甘肃省', value: 0 },
+            { name: '青海省', value: 96 },
+            { name: '宁夏回族自治区', value: 806.4 },
+            { name: '新疆维吾尔自治区', value:  5040 }
+
+        ];
+        data.sort(function (a, b) {
+            return a.value - b.value;
+        });
+        const mapOption = {
+            title: {
+                text: '2021年1-7月各省市合成橡胶进口数量',
+                left: 'center'
+            },
+            visualMap: {
+                left: 'right',
+                min: 0,
+                max: 489118,
+                inRange: {
+                    // prettier-ignore
+                    color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                },
+                text: ['High(吨)', 'Low'],
+                calculable: true
+            },
+            series: [
+                {
+                    id: 'population',
+                    type: 'map',
+                    roam: true,
+                    map: 'CHN',
+                    animationDurationUpdate: 2000,
+                    universalTransition: true,
+                    data: data
+                }
+            ]
+        };
+        const barOption = {
+            title: {
+                text: '2021年1-7月各省市合成橡胶进口数量',
+                left: 'center'
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                axisLabel: {
+                    rotate: 30
+                },
+                data: data.map(function (item) {
+                    return item.name;
+                })
+            },
+            animationDurationUpdate: 2000,
+            series: {
+                type: 'bar',
+                id: 'population',
+                data: data.map(function (item) {
+                    return item.value;
+                }),
+                universalTransition: true
+            }
+        };
+        let currentOption = mapOption;
+        myChart.setOption(mapOption);
+        setInterval(function () {
+            currentOption = currentOption === mapOption ? barOption : mapOption;
+            myChart.setOption(currentOption, true);
+        }, 4000);
+    });
+
+    if (option && typeof option === 'object') {
+        myChart.setOption(option);
+    }
+
+    //用电量
+    var dom2 = document.getElementById("NationalElePow2");
+    var myChart2 = echarts.init(dom2);
+    var app2 = {};
+    var option2;
+    myChart2.showLoading();
+    $.get(ROOT_PATH + '/admin/CHN.json', function (chnJson) {
+        myChart2.hideLoading();
+        echarts.registerMap('CHN', chnJson, {
+
+        });
+        var data = [
+            { name: '北京市', value: 2258.2 },
+            { name: '天津市', value: 1077.5 },
+            { name: '河北省', value: 6914.3 },
+            { name: '山西省', value: 1049.3 },
+            { name: '内蒙古自治区', value: 47.6 },
+            { name: '辽宁省', value:  2867.6 },
+            { name: '吉林省', value: 32.1 },
+            { name: '黑龙江省', value: 31 },
+            { name: '上海市', value: 45688.2 },
+            { name: '江苏省', value: 75135.5},
+            { name: '浙江省', value:  70661.6 },
+            { name: '安徽省', value: 6848 },
+            { name: '福建省', value:  5000.5 },
+            { name: '江西省', value: 984.2 },
+            { name: '山东省', value: 96252.8 },
+            { name: '河南省', value:  478.4 },
+            { name: '湖北省', value: 12179.0 },
+            { name: '湖南省', value: 1935.7 },
+            { name: '广东省', value: 30855.5 },
+            { name: '广西省', value: 732.8 },
+            { name: '海南省', value: 0 },
+            { name: '重庆市', value: 3505.7 },
+            { name: '四川省 ', value:  437.9 },
+            { name: '贵州省', value: 383.8 },
+            { name: '云南省', value: 412.6 },
+            { name: '西藏自治区', value:  4.5 },
+            { name: '陕西省', value: 24.3 },
+            { name: '甘肃省', value: 0.1 },
+            { name: '宁夏回族自治区', value: 20.1 },
+            { name: '新疆维吾尔自治区', value:  35.7 }
+        ];
+        data.sort(function (a, b) {
+            return a.value - b.value;
+        });
+        const mapOption = {
+            title: {
+                text: '2021年1-7月各省市合成橡胶出口数量',
+                left: 'center'
+            },
+            visualMap: {
+                left: 'right',
+                min: 0,
+                max: 96252,
+                inRange: {
+                    // prettier-ignore
+                    color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+                },
+                text: ['High(吨)', 'Low'],
+                calculable: true
+            },
+            series: [
+                {
+                    id: 'population',
+                    type: 'map',
+                    roam: true,
+                    map: 'CHN',
+                    animationDurationUpdate: 2000,
+                    universalTransition: true,
+                    data: data
+                }
+            ]
+        };
+        const barOption = {
+            title: {
+                text: '2021年1-7月各省市合成橡胶出口数量',
+                left: 'center'
+            },
+            xAxis: {
+                type: 'value'
+            },
+            yAxis: {
+                type: 'category',
+                axisLabel: {
+                    rotate: 30
+                },
+                data: data.map(function (item) {
+                    return item.name+","+item.value;
+
+                })
+            },
+            animationDurationUpdate: 2000,
+            series: {
+                type: 'bar',
+                id: 'population',
+                data: data.map(function (item) {
+                    return item.value;
+                }),
+                universalTransition: true
+            }
+        };
+        let currentOption = mapOption;
+        myChart2.setOption(mapOption);
+        setInterval(function () {
+            currentOption = currentOption === mapOption ? barOption : mapOption;
+            myChart2.setOption(currentOption, true);
+        }, 4000);
+    });
+
+    if (option2 && typeof option2 === 'object') {
+        myChart2.setOption(option2);
+    }
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="/static/admin/css/login.css">
+
+</head>
+<body>
+<div class="container">
+    <div id="login">
+        <form action="/{{config "String" "adminPath" ""}}/login/doLogin" method="post" id="myform">
+            <input type="hidden" name="ajaxlogin" id="ajaxlogin">
+            <input type="hidden" name="ajaxcode" id="ajaxcode">
+            <div class="l_title" style="color: #FFFFFF">橡胶林后台管理系统</div>
+            <dl >
+                <dd style="color: #FFFFFF">管理员姓名：<input class="text" type="text" name="username" id="username"></dd>
+                <dd style="color: #FFFFFF">管理员密码：<input class="password_icon" type="password" name="password" id="password"></dd>
+                <dd style="color: #FFFFFF">验　证　码：<input class="cap_cha" id="verify" type="text" name="captcha"/>{{create_captcha}}<tr><th><text class="little_text">点击图片刷新验证码</text></th></tr>
+                </dd>
+                <dd class="t_size"><input type="submit" class="submit" name="dosubmit" value=""></dd>
+            </dl>
+        </form>
+    </div>
+</div>
+</body>
+</html>

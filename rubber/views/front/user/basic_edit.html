@@ -1,0 +1,77 @@
+{{template "../public/page_header.html" .}}
+
+<div class="container-fluid" style="border: 1px solid #000000; width: 900px; height: 500px;margin: 0 auto;border:none;">
+    <style type="text/css">
+        .select{width:200px;height: 23.64px}
+
+    </style>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                设备信息
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive input-form">
+                    <form action="/{{config "String" "adminPath" ""}}/nav/doEdit" method="post">
+                    <ul>
+
+                        <li style="text-align-last:left;display:inline-block;">
+                            <span>用户号  </span> <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                        </li>
+                        <li style="float:right;display:inline-block;">
+                            <span>参与设备</span> <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                        </li>
+                        <li style="text-align-last:left;display:inline-block;">
+                            <span>设备容量  </span> <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                        </li>
+                        <li style="float:right;display:inline-block;text-align:center;text-align:left;">
+                            是否可监测&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                            <select name="focus_type" id="type1" class="select" class="select">
+                                <option value="1">可监测</option>
+                                <option value="2">不可监测</option>
+                            </select>
+
+                        </li>
+                        <li style="text-align-last:left;display:inline-block;">
+                            <span>监测点  </span> <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                        </li>
+                        <li style="float:right;display:inline-block;text-align:center;text-align:left;">
+                            是否参与响应&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                            <select name="focus_type" id="type0" class="select" class="select">
+                                <option value="1">参与</option>
+                                <option value="2">不参与</option>
+                            </select>
+
+                        </li>
+                        <li style="text-align-last:left;display:inline-block;">
+                            <span>响应量  </span> <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                        </li>
+                        <li style="float:right;display:inline-block;text-align:center;text-align:left;">
+                            参与方式&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                            <select name="focus_type" id="type2" class="select" class="select">
+                                <option value="1">关停</option>
+                                <option value="2">启用</option>
+                            </select>
+
+                        </li>
+                        <li>
+                            <br/>
+                            <input class="prevPage_btn" type="button" id="prevPage" value="取消">
+                            <button  type="submit" class="btn btn-primary">确定</button>
+                        </li>
+
+                    </ul>
+
+
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

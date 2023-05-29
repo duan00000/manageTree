@@ -1,0 +1,66 @@
+{{template "../public/page_header.html" .}}
+{{template "../public/banner.html" .}}
+<link rel="stylesheet" href="/static/front/css/welcome.css" />
+<!-- self_info -->
+<div class="grzxbj">
+    <div class="selfinfo center">
+        <div class="lfnav fl">
+            <div class="ddzx">用户中心</div>
+            <div class="subddzx">
+                {{template "../public/user_left.html" .}}
+            </div>
+
+        </div>
+        <div class="rtcont fr">
+            <div class="portal-content-box">
+
+                <div class="box-bd">
+                    <div class="portal-main clearfix">
+                        <div class="user-card">
+                            <h2 class="username">姓名：{{.userInfo.Username}}</h2>
+                            <p class="tip">晚上好</p>
+                            <a class="link" href=" " target="_blank"
+                                data-stat-id=" "
+                                onclick=" ">修改个人信息
+                                &gt;</a>
+                            <img class="avatar" src="/static/front/image/robot.png"
+                                width="150" height="150" alt="个人信息">
+                        </div>
+                        <div class="user-actions">
+                            <ul class="action-list">
+                                <li>账户安全：<span class="level level-2">普通</span></li>
+                                <li>绑定手机：<span class="tel">{{.userInfo.Phone}}</span></li>
+
+                                <li>绑定邮箱：<span class="tel">{{.userInfo.Email}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="portal-sub">
+                        <ul class="info-list clearfix">
+                            <li>
+                                <h3>待支付的订单：<span class="num">0</span></h3>
+                                <a href="" data-stat-id="">查看待支付订单</a>
+                                <img src="//s01.mifile.cn/i/user/portal-icon-1.png" alt="">
+                            </li>
+                            <li>
+                                <h3>待收货的订单：<span class="num">0</span></h3>
+                                <a href="" data-stat-id="">查看待收货订单</a>
+                                <img src="//s01.mifile.cn/i/user/portal-icon-2.png" alt="">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- self_info -->
+
+{{template "../public/page_footer.html" .}}
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+{{template "../public/page_header.html" .}}
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+
+
+        <div class="table-responsive">
+            <table class="hovertable">
+                <thead>
+                <tr class="th">
+                    <th>部门名称</th>
+                    <th>部门描述</th>
+                    <th>增加时间</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $key,$value := .roleList}}
+                    <tr>
+                        <td>{{$value.Title}}</td>
+                        <td>{{$value.Description}}</td>
+                        <td>{{$value.AddTime | unixToDate}}</td>
+                        <td class="text-center">
+                            <a href="/{{config "String" "adminPath" ""}}/role/auth?id={{$value.Id}}">授权</a>　
+
+                            <a href="/{{config "String" "adminPath" ""}}/role/edit?id={{$value.Id}}">编辑</a>　
+
+                            <a class="delete" href="/{{config "String" "adminPath" ""}}/role/delete?id={{$value.Id}}">删除</a>
+
+
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

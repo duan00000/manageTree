@@ -1,0 +1,123 @@
+{{template "../public/page_header.html"}}
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+</style>
+<script type="text/javascript" src="/static/admin/js/jqPaginator.js"></script>
+
+<div class="panel panel-default">
+    <div class="panel-heading" style="background: #d4e3e5">
+        <a href="/{{config "String" "adminPath" ""}}/frontUser/add" class="btn btn-primary">增加用户</a>
+    </div>
+    <!--
+        搜索展示
+        -->
+    <div class="panel-body">
+        <form role="form" class="form-inline" method="get" action="/{{config "String" "adminPath" ""}}/frontUser">
+            <div class="form-group">
+                <label for="name">输入关键词</label>
+                <input type="text" class="form-control" value="{{.keyword}}" id="keyword" name="keyword" placeholder="请输入用户名">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class=" btn btn-default">开始搜索</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="panel-body">
+        <!--
+        列表展示
+        -->
+        <div class="table-responsive">
+            <table class="hovertable">
+                <thead>
+                <tr class="th">
+                    <th>用户名</th>
+                    <th>电话</th>
+                    <th>邮箱</th>
+                    <th>时间</th>
+                    <th>状态</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $key,$value:= .frontUserList}}
+                    <tr>
+                        <td>{{$value.Username}}</td>
+                        <td>{{$value.Phone}}</td>
+                        <td>{{$value.Email}}</td>
+                        <td>{{$value.AddTime | unixToDate}}</td>
+                        <td align="center">
+                            {{if eq $value.Status 0}}
+                                <img  src="/static/admin/images/yes.png" width="40" class="chStatus" data-id="{{$value.Id}}" data-table="user" data-field="status"/>
+                            {{else}}
+                                <img src="/static/admin/images/no.png"  width="40" class="chStatus" data-id="{{$value.Id}}" data-table="user" data-field="status"/>
+                            {{end}}
+                        </td>
+                        <td class="text-center">
+                            <a href="/{{config "String" "adminPath" ""}}/frontUser/edit?id={{$value.Id}}">修改</a> 　
+                            <a class="delete" href="/{{config "String" "adminPath" ""}}/frontUser/delete?id={{$value.Id}}">删除</a>
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+            <div id="pagination" class="pagination fr">
+            </div>
+        </div>
+        <div class="goods_Page">
+            每页显示用户数:{{.pageSize}}，
+            用户总数：{{.totalCount}}
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#pagination").jqPaginator({
+            //页数
+            totalPages: {{.totalPages}},
+            //每页数量
+            pageSize:  {{.pageSize}},
+            //当前第几页
+            currentPage: {{.page}},
+            /*
+            一开始加载分页插件就会激活这个函数，以后点击任何一个页面按钮也会激活这个事件
+            有两个参数：
+            1. num表示点第几页
+            2. type表示操作类型，有两个取值：init表示第1次加载 change表示后面的点击
+             */
+            onPageChange: function (num, type) {
+                // console.log(num, type)
+                if (type === "change") {
+                    location.href = "/{{config "String" "adminPath" ""}}/frontUser?page=" + num+"&keyword={{.keyword}}";
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,330 @@
+{{template "../../public/page_header.html" .}}
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="background: #d4e3e5">
+                协议详情
+                <span class="head-span">--订单号:{{.orderDemand.OrderId}}</span>
+
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive input-form news_content">
+                    <form action="/{{config "String" "adminPath" ""}}/signContract/doSign" method="post" enctype="multipart/form-data">
+                            <div class="detail-item-warpper">
+                                <span class="tit-span">基本信息</span>
+                                  <ul class="ulbox">
+                                    <li>
+                                        <span>总用户号:</span> <span>{{.orderDemand.Uid}}</span>
+                                    </li>
+                                    <li>
+                                        <span>用户类型:</span> <span>
+                                            {{if eq .orderDemand.UserType 1}}
+                                                普通用户
+                                            {{else if eq .orderDemand.UserType 2}}
+                                                高级用户
+                                           {{else}}
+                                                资深用户
+                                             {{end}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>用户名称:</span> <span>{{.orderDemand.CName}}</span>
+                                    </li>
+                                    <li>
+                                        <span>地区:</span> <span>{{.orderDemand.Address}}</span>
+                                    </li>
+                                    <li>
+                                        <span>参与年份:</span> <span>{{.orderBasic.JoinY}}</span>
+                                    </li>
+                                    <li>
+                                        <span>第一联系人:</span> <span>{{.orderBasic.FirLiaison}}</span>
+                                    </li>
+                                    <li>
+                                        <span>第一联系人电话:</span> <span>{{.orderBasic.FirLiaisonWay}}</span>
+                                    </li>
+                                    <li>
+                                        <span>第二联系人:</span> <span>{{.orderBasic.SecLiaison}}</span>
+                                    </li>
+                                    <li>
+                                        <span>第二联系人电话:</span> <span>{{.orderBasic.SecLiaisonWay}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需林区数量:</span> <span>{{.orderBasic.ContractCap}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需无人机数量:</span> <span>{{.orderBasic.RunningCap}}</span>
+                                    </li>
+                                    <li>
+                                        <span>联系地址:</span> <span>{{.orderBasic.LinkAddress}}</span>
+                                    </li>
+                                    <li>
+                                        <span>公司经营许可证:</span> <span>{{.orderBasic.TRC}}</span>
+                                    </li>
+                                    <li>
+                                        <span>是否符合下单条件:</span>
+                                        <span>
+                                            {{if eq .orderBasic.MonIns 0}}
+                                                符合
+                                            {{else}}
+                                                不符合
+                                            {{end}}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>订单价格:</span> <span>{{.orderBasic.BiddingPrice}}</span>
+                                    </li>
+                                      <li hidden>
+                                          <span>订单号：</span>
+                                          <input type="text" id="order_id" name="order_id" class="input" value="{{.orderDemand.OrderId}}" />
+                                      </li>
+
+                                  </ul>
+                                  <hr style="height:10px;border:none;border-top:10px groove skyblue;"/>
+                                <span class="tit-span">签约无人机</span>
+                                <p> </p>
+                                <span class="tit-span2">待签约用户</span>
+                                <ul class="ulbox">
+                                        <li>
+                                            <span>用户号:</span> <span>{{.orderDevice.TUid}}</span>
+                                        </li>
+                                        <li>
+                                            <span>用户名称:</span> <span>{{.orderDevice.CName}}</span>
+                                        </li>
+                                        <li>
+                                            <span>地区:</span> <span>{{.orderDevice.CAddress}}</span>
+                                        </li>
+                                        <li>
+                                            <span>交易量:</span> <span>{{.orderDevice.BeResponse}}</span>
+                                        </li>
+                                        <li>
+                                            <span>联系电话:</span> <span>{{.orderDevice.CPhone}}</span>
+                                        </li>
+                                        <li>
+                                            <span>所需红关公橡皮树数量:</span> <span>{{.orderDevice.TimeRespond1}}</span>
+                                        </li>
+                                        <li>
+                                            <span>所需小叶橡皮树数量:</span> <span>{{.orderDevice.TimeRespond2}}</span>
+                                        </li>
+                                        <li>
+                                            <span>所需红黑金刚橡皮树数量:</span> <span>{{.orderDevice.TimeRespond3}}</span>
+                                        </li>
+                                        <li>
+                                            <span>所需花叶橡皮树数量:</span> <span>{{.orderDevice.TimeRespond4}}</span>
+                                        </li>
+                                </ul>
+                                        <span class="tit-span2">符合下单条件</span>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr class="th">
+                                                    <th>参与无人机</th>
+                                                    <th>已起降次数</th>
+                                                    <th>无人机电量</th>
+                                                    <th>是否待起飞</th>
+                                                    <th>是否待起飞</th>
+                                                    <th>故障状态</th>
+                                                    <th>所需价格</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {{range $key,$value:= .dsmUserDevice}}
+                                                    <tr>
+                                                        <td>{{$value.NextDevice}}</td>
+
+                                                        <td>{{$value.NextPoint}}</td>
+                                                        <td>{{$value.NextVolume}}</td>
+                                                        <td>
+                                                            {{if eq $value.NextSee 1}}
+                                                                是
+                                                            {{else}}
+                                                                否
+                                                            {{end}}
+                                                        </td>
+                                                        <td>
+                                                            {{if eq $value.NextJoin 1}}
+                                                                是
+                                                            {{else}}
+                                                                否
+                                                            {{end}}</td>
+                                                        <td>{{if eq $value.NextMethod 1}}
+                                                                是
+                                                            {{else}}
+                                                                否
+                                                            {{end}}</td>
+                                                        <td>{{$value.NextRespond}}</td>
+
+                                                    </tr>
+                                                {{end}}
+                                                </tbody>
+                                             </table>
+
+                                <hr style="height:10px;border:none;border-top:10px groove skyblue;"/>
+                                <span class="tit-span">所需商品</span>
+                                <p> </p>
+                                <span class="tit-span2">所需橡胶树数（单位：株）</span>
+                                <ul class="ulbox">
+                                    <li>
+                                        <span>所需红关公橡皮树数量 :</span> <span>{{.orderCap.MTFz}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需小叶橡皮树数量 :</span> <span>{{.orderCap.MTFm}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需黑金刚橡皮树数量 :</span> <span>{{.orderCap.MTFw}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需小叶橡皮树数量 :</span> <span>{{.orderCap.MTFn}}</span>
+                                    </li>
+                                    </ul>
+                                   <span class="tit-span2">所需无人机数量（单位：个）</span>
+                                    <ul class="ulbox">
+
+                                    <li>
+                                        <span>所需小型无人机数量 :</span> <span>{{.orderCap.WFz}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需中型无人机数量 :</span> <span>{{.orderCap.WFm}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需大型无人机数量 :</span> <span>{{.orderCap.WFw}}</span>
+                                    </li>
+                                    <li>
+                                        <span>所需微型无人机数量 :</span> <span>{{.orderCap.WFn}}</span>
+                                    </li>
+                                    <li>
+                                        <span>是否符合下单条件:</span> <span>
+                                            {{if eq .orderCap.CanResponse 1}}
+                                                是
+                                            {{else}}
+                                                否
+                                            {{end}}
+                                        </span>
+                                    </li>
+                                </ul>
+                                <hr style="height:10px;border:none;border-top:10px groove skyblue;"/>
+                                <ul class="ulbox">
+                                    <li>
+                                        <span>甲方:</span> <span >{{.partUser.PartA}}</span>
+                                    </li>
+                                    <li>
+                                        <span>乙方:</span> <span >{{.partUser.PartB}}</span>
+                                    </li>
+                                    <li>
+                                        <span>丙方:</span> <span >{{.orderDemand.CName}}</span>
+                                    </li>
+                                    <li>   <span></span>      </li>
+                                    <li><span></span></li>
+
+
+                                    <li style="margin-right:160px;">
+                                        {{if eq .signContractExit.SignContract 0}}
+                                            <span>法定代表人:</span> <input type="text" id="law_id" name="law_id" class="input" value="" />
+                                        {{else}}
+                                            <span>法定代表人:</span> <input type="text" id="law_id" name="law_id" class="input" value="{{.signContractExit.CLaw}}" />
+                                        {{end}}
+                                    </li>
+
+                                    <li style="margin-right:160px;">
+                                        {{if eq .signContractExit.SignContract 0}}
+                                            <span >地址:</span>  <input type="text" id="address_id" name="address_id" class="input" value="" />
+                                        {{else}}
+                                            <span >地址:</span>  <input type="text" id="address_id" name="address_id" class="input" value="{{.signContractExit.CAddress}}" />
+                                        {{end}}
+                                    </li>
+                                    <li style="margin-right:160px;">
+                                        {{if eq .signContractExit.SignContract 0}}
+                                            <span>邮编:</span>  <input type="text" id="email_id" name="email_id" class="input" value="" />
+                                        {{else}}
+                                            <span>邮编:</span>  <input type="text" id="email_id" name="email_id" class="input" value="{{.signContractExit.Email}}" />
+                                        {{end}}
+                                    </li>
+
+                                    <li style="margin-right:160px;">
+                                        {{if eq .signContractExit.SignContract 0}}
+                                            <span style="margin-right:28px;">联系人:</span> <input type="text" id="link_id" name="link_id" class="input" value="" />
+                                        {{else}}
+                                            <span style="margin-right:28px;">联系人:</span> <input type="text" id="link_id" name="link_id" class="input" value="{{.signContractExit.LinkUser}}" />
+                                        {{end}}
+                                    </li>
+                                    <li style="margin-right:160px;">
+                                        {{if eq .signContractExit.SignContract 0}}
+                                            <span>电话:</span> <input type="text" id="phone_id" name="phone_id" class="input" value="" />
+                                        {{else}}
+                                            <span>电话:</span> <input type="text" id="phone_id" name="phone_id" class="input" value="{{.signContractExit.CPhone}}" />
+                                        {{end}}
+                                    </li >
+                                    <li style="margin-right:160px;">
+                                        {{if eq .signContractExit.SignContract 0}}
+                                            <span>传真:</span> <input type="text" id="fax_id" name="fax_id" class="input" value="" />
+                                        {{else}}
+                                            <span>传真:</span> <input type="text" id="fax_id" name="fax_id" class="input" value="{{.signContractExit.Fax}}" />
+                                        {{end}}
+                                    </li>
+
+                                </ul>
+
+                                <p>
+                                <p/>
+                                <input class="prevPage_btn" type="button" id="prevPage" value="返回上一页">
+                                {{if eq .signContractExit.SignContract 0}}
+                                    <button type="submit" class="btn btn-success goods_content_btn" > 生成协议 </button>
+                                {{else}}
+                                {{end}}
+
+                            </div>
+                    </form>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+
+<style type="text/css">
+    .detail-item-warpper {
+        margin-bottom: 10px;
+        padding: 20px 32px;
+        background-color: #fff;
+    }
+    .ulbox {
+        overflow: hidden;
+    }
+    li {
+        min-width: 280px;
+        padding-bottom: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        color: rgba(51, 51, 51, 1);
+        float: left;
+    }
+    span {
+        width: 120px;
+        line-height: 20px;
+    }
+    .input-form li span{
+        display: inline-block;
+        width:auto
+    }
+    .tit-span{
+        font-size: 20px;
+        color:#777777;
+        font-weight: bold;
+    }
+    .tit-span2{
+        font-size: 16px;
+        color:#777777;
+    }
+    .panel-heading{
+             font-size: 18px;
+             font-weight: bold;
+         }
+    .head-span{
+        font-size: 16px;
+        color:#2a6496;
+    }
+</style>

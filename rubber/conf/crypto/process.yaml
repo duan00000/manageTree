@@ -1,0 +1,308 @@
+# name :"dwxm_dwxm"
+#  description:""
+
+version: 1.0.0
+#client配置
+client:
+  organization: orgprocess
+
+  logging:
+    level: info
+      #注释信息 需要的进行打开 Global configuration for peer, event service and orderer timeouts
+      # if this this section is omitted, then default values will be used (same values as below)
+      #  peer:
+      #    timeout:
+      #      connection: 10s
+      #      response: 180s
+      #      discovery:    #        # Expiry period for discovery service greylist filter
+      #        # The channel client will greylist peers that are found to be offline
+      #        # to prevent re-selecting them in subsequent retries.
+      #        # This interval will define how long a peer is greylisted
+      #        greylistExpiry: 10s
+
+      # the below timeouts are commented out to use the default values that are found in
+      # "pkg/fab/endpointconfig.go"
+      # the client is free to override the default values by uncommenting and resetting
+    # the values as they see fit in their config file
+    #    timeout:
+    #      connection: 15s
+    #      registrationResponse: 15s
+    #  orderer:
+    #    timeout:
+    #      connection: 15s
+    #      response: 15s
+    #  global:
+    #    timeout:
+    #      query: 180s
+    #      execute: 180s
+    #      resmgmt: 180s
+    #    cache:
+    #      connectionIdle: 30s
+    #      eventServiceIdle: 2m
+    #      channelConfig: 30m
+    #      channelMembership: 30s
+    #      discovery: 10s
+    #      selection: 10m
+    #带有密钥和证书的 MSP 目录的根
+  # Root of the MSP directories with keys and certs .
+  cryptoconfig:
+    path: /home/jsj/go/src/elenewenergy/conf/crypto
+
+  # Some SDKs support pluggable KV stores, the properties under "credentialStore"
+  # are implementation specific
+  credentialStore:
+    # [Optional]. Used by user store. Not needed if all credentials are embedded in configuration
+    # and enrollments are performed elsewhere.
+    path: "/tmp/state-store"
+
+    # [Optional]. 由用户存储使用。如果所有凭据都嵌入到配置中，则不需要
+    # requiring a key store. PKCS#11 based implementations does not.
+    cryptoStore:
+      # Specific to the underlying KeyValueStore that backs the crypto key store.
+      path: /tmp/msp
+
+  # [Optional] BCCSP config for the client. Used by GO SDK.加密
+  BCCSP:
+    security:
+      enabled: true
+      default:
+        provider: "SW"
+      hashAlgorithm: "SHA2"
+      softVerify: true
+      level: 256
+
+  tlsCerts:
+    # [Optional]. Use system certificate pool when connecting to peers, orderers (for negotiating TLS) Default: false
+    systemCertPool: true
+
+    # [Optional]. Client key and cert for TLS handshake with peers and orderers
+    client:
+      key:
+        path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/User1@orgprocess.trace.com/tls/client.key
+      cert:
+        path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/User1@orgprocess.trace.com/tls/client.crt
+#channel配置
+channels:   #多个通道可添加
+  # name of the channel
+  mychannel:
+    orderers:
+      - orderer.trace.com
+    # [Optional]. list of peers from participating orgs
+    peers:
+      peer0.orgprocess.trace.com:
+        #是否会向该节点发送交易提案以供背书？同行必须安装链码。该应用程序还可以使用此属性来决定哪些对等点发送链码安装请求。默认值：真
+        # [Optional]. will this peer be sent transaction proposals for endorsement? The peer must
+        # have the chaincode installed. The app can also use this property to decide which peers
+        # to send the chaincode install request. Default: true
+        endorsingPeer: true
+        #  [可选的]。这个对等点会被发送查询建议吗？对等点必须有链码已安装。应用程序还可以使用此属性来决定向哪些对等方发送 链码安装请求。默认值：真
+        # [Optional]. will this peer be sent query proposals? The peer must have the chaincode
+        # installed. The app can also use this property to decide which peers to send the
+        # chaincode install request. Default: true
+        chaincodeQuery: true
+        # [可选的]。是否会向该对等点发送不需要链码的查询建议，例如 queryBlock()、queryTransaction() 等 默认值：true
+        # [Optional]. will this peer be sent query proposals that do not require chaincodes, like
+        # queryBlock(), queryTransaction(), etc. Default: true
+        ledgerQuery: true
+        #＃ [可选的]。这个对等点会成为 SDK 监听器注册的目标吗？所有同行都可以产生事件，但应用程序通常只需要连接到一个来监听事件。默认值：true # queryBlock()、queryTransaction() 等 默认值：true
+        # [Optional]. will this peer be the target of the SDK's listener registration? All peers can
+        # produce events but the app typically only needs to connect to one to listen to events.
+        # Default: true
+        eventSource: true
+      peer1.orgprocess.trace.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+
+
+    policies:
+      queryChannelConfig:
+        #[Optional] min number of success responses (from targets/peers)
+        minResponses: 1
+        #[Optional] channel config will be retrieved for these number of random targets
+        maxTargets: 1
+        #[Optional] retry options for query config block
+        retryOpts:
+          #[Optional] number of retry attempts
+          attempts: 5
+          #[Optional] the back off interval for the first retry attempt
+          initialBackoff: 500ms
+          #[Optional] the maximum back off interval for any retry attempt
+          maxBackoff: 5s
+          #[Optional] he factor by which the initial back off period is exponentially incremented
+          backoffFactor: 2.0
+# organization配置
+organizations:
+  orgprocess:
+    mspid: OrgProcessMSP
+    # This org's MSP store (absolute path or relative to client.cryptoconfig)
+    cryptoPath: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/User1@orgprocess.trace.com/msp
+
+    peers:
+      - peer0.orgprocess.trace.com
+      - peer1.orgprocess.trace.com
+
+    users:
+      Admin:
+        key:
+          path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/Admin@orgprocess.trace.com/msp/keystore/priv_sk
+        cert:
+          path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/Admin@orgprocess.trace.com/msp/signcerts/Admin@orgprocess.trace.com-cert.pem
+
+      User1:
+        key:
+          path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/User1@orgprocess.trace.com/msp/keystore/26246300d6299d7a5a0bb643d96c49b3b93c064faa983b1c7d1e2d91b46e14cb_sk
+        cert:
+          path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/User1@orgprocess.trace.com/msp/signcerts/User1@orgprocess.trace.com-cert.pem
+    # ＃[可选的]。证书颁发机构在基于 Fabric 的情况下颁发用于识别目的的证书网络。通常证书配置是在一个单独的过程中完成的运行时网络。 Fabric-CA 是一个特殊的证书颁发机构，为动态证书管理（注册、撤销、重新注册）。以下部分仅适用于 Fabric-CA 服务器。
+    certificateAuthorities:
+      - ca.orgprocess.trace.com
+
+  # Orderer Org name
+  ordererorg:
+    # Membership Service Provider ID for this organization
+    mspID: OrdererMSP
+    # Needed to load users crypto keys and certs for this org (absolute path or relative to global crypto path, DEV mode)
+    cryptoPath: /home/jsj/go/src/elenewenergy/conf/crypto/ordererOrganizations/trace.com/users/Admin@trace.com/msp
+#orderer配置
+orderers:  #多个orderer可添加
+  orderer.trace.com:
+    #    url: localhost:7050
+    url:  grpcs://orderer.trace.com:7050
+
+    grpcOptions:
+      ssl-target-name-override: orderer.trace.com
+      #     These parameters should be set in coordination with the keepalive policy on the server,
+      #     as incompatible settings can result in closing of connection.
+      #     When duration of the 'keep-alive-time' is set to 0 or less the keep alive client parameters are disabled
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      #will be taken into consideration if address has no protocol defined, if true then grpc or else grpcs
+      allow-insecure: false
+
+    tlsCACerts:
+      # Certificate location absolute path
+      path: /home/jsj/go/src/elenewenergy/conf/crypto/ordererOrganizations/trace.com/tlsca/tlsca.trace.com-cert.pem
+#peers配置
+peers:
+  peer0.orgprocess.trace.com:
+    # this URL is used to send endorsement and query requests
+    # [Optional] Default: Infer from hostname
+    #    url: grpcs://localhost:7051
+    url:  grpcs://peer0.orgprocess.trace.com:7051
+    eventUrl: grpcs://peer0.orgprocess.trace.com:7053
+    #TODO to be moved to high level, common for all grpc connections
+    grpcOptions:
+      ssl-target-name-override: peer0.orgprocess.trace.com
+      #     These parameters should be set in coordination with the keepalive policy on the server,
+      #     as incompatible settings can result in closing of connection.
+      #     When duration of the 'keep-alive-time' is set to 0 or less the keep alive client parameters are disabled
+      keep-alive-time: 0s
+      keep-alive-timeout: 20s
+      keep-alive-permit: false
+      fail-fast: false
+      #will be taken into consideration if address has no protocol defined, if true then grpc or else grpcs
+      allow-insecure: false
+
+    tlsCACerts:
+      # Certificate location absolute path
+      path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/tlsca/tlsca.orgprocess.trace.com-cert.pem
+#
+#   peer1.odlyh.dwgl.com:
+#     # this URL is used to send endorsement and query requests
+#     # [Optional] Default: Infer from hostname
+#     url: 127.0.0.1:8051
+#
+#     #TODO to be moved to high level, common for all grpc connections
+#     grpcOptions:
+#       ssl-target-name-override: peer1.odlyh.dwgl.com
+#       #     These parameters should be set in coordination with the keepalive policy on the server,
+#       #     as incompatible settings can result in closing of connection.
+#       #     When duration of the 'keep-alive-time' is set to 0 or less the keep alive client parameters are disabled
+#       keep-alive-time: 0s
+#       keep-alive-timeout: 20s
+#       keep-alive-permit: false
+#       fail-fast: false
+#       #will be taken into consideration if address has no protocol defined, if true then grpc or else grpcs
+#       allow-insecure: false
+#
+#     tlsCACerts:
+#       # Certificate location absolute path
+#       path: /home/jsj/qkl/backendCode/elenewenergy/conf/crypto/peerOrganizations/odlyh.dwgl.com/tlsca/tlsca.odlyh.dwgl.com-cert.pem
+
+
+#fabric-CA配置
+certificateAuthorities:
+  ca.orgprocess.trace.com:
+    # [Optional] Default: Infer from hostnamegrpcs://
+    url: https://ca.orgprocess.trace.com:7054
+    # [Optional] The optional server name for target override
+    #grpcOptions:
+    #  ssl-target-name-override: ca.org1.example.com
+    tlsCACerts:
+      # Comma-Separated list of paths
+      path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/tlsca/tlsca.orgprocess.trace.com-cert.pem
+      # Client key and cert for SSL handshake with Fabric CA
+      client:
+        key:
+          path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/User1@orgprocess.trace.com/tls/client.key
+        cert:
+          path: /home/jsj/go/src/elenewenergy/conf/crypto/peerOrganizations/orgprocess.trace.com/users/User1@orgprocess.trace.com/tls/client.crt
+    # Fabric-CA supports dynamic user enrollment via REST APIs. A "root" user, a.k.a registrar, is
+    # needed to enroll and invoke new users.
+    registrar:
+      enrollId: admin
+      enrollSecret: adminpw
+    # [Optional] The optional name of the CA.
+
+    caName: ca.orgprocess.trace.com
+
+#
+# operations:
+#   # host and port for the operations server
+#   listenAddress: 127.0.0.1:8080
+#
+#   # TLS configuration for the operations endpoint
+#   tls:
+#     # TLS enabled
+#     enabled: false
+#
+#     # TODO replace cert.file, key.file and clientRootCAs.files to tlsCACerts as used elsewhere in this config file
+#     # path to PEM encoded server certificate for the operations server
+#     cert:
+#       file:
+#
+#     # path to PEM encoded server key for the operations server
+#     key:
+#       file:
+#
+#     # require client certificate authentication to access all resources
+#     clientAuthRequired: false
+#
+#     # paths to PEM encoded ca certificates to trust for client authentication
+#     clientRootCAs:
+#       files: []
+#
+# metrics:
+#   # metrics provider is one of statsd, prometheus, or disabled
+#   provider: prometheus
+#
+#   # statsd configuration
+#   statsd:
+#     # network type: tcp or udp
+#     network: udp
+#
+#     # statsd server address
+#     address: 127.0.0.1:8125
+#
+#     # the interval at which locally cached counters and gauges are pushed
+#     # to statsd; timings are pushed immediately
+#     writeInterval: 10s
+#
+#     # prefix is prepended to all emitted statsd metrics
+#     prefix:
+
+

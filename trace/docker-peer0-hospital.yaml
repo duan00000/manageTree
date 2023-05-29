@@ -1,0 +1,68 @@
+version : '2'
+services:
+  peer0.orghospital.trace.com:  #同上
+    container_name: peer0.orghospital.trace.com
+    image: hyperledger/fabric-peer:latest  
+    environment:    #环境变量
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=trace_default  # 修改
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true  #是否使用自动选举，此处选择true,自动选举，下面就设置为false
+      - CORE_PEER_GOSSIP_ORGLEADER=false        #是否不是leader节点
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_LOCALMSPID=OrgHospitalMSP
+      - CORE_PEER_ID=peer0.orghospital.trace.com              #当前peer节点的名字
+      - CORE_PEER_ADDRESS=peer0.orghospital.trace.com:7051    #当前节点的地址信息
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.orghospital.trace.com:7051        #启动节点后向节点发起gossip链接，以加入网络
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.orghospital.trace.com:7051 #节点被“组织外“节点感知时的地址，默认为空,代表不被其他组织节点所感知
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+    volumes:
+      - /var/run/:/host/var/run/
+      - ./crypto-config/peerOrganizations/orghospital.trace.com/peers/peer0.orghospital.trace.com/msp:/etc/hyperledger/fabric/msp
+      - ./crypto-config/peerOrganizations/orghospital.trace.com/peers/peer0.orghospital.trace.com/tls:/etc/hyperledger/fabric/tls
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer     #peer节点启动之后的工作目录
+    command: peer node start     #peer节点启动执行的命令
+    networks:
+     default:
+      aliases:
+      - trace
+    ports:
+      - 4051:7051
+      - 4053:7053 # 事件的端口
+      
+  cli2:   #定义一个客户端容器，方便与各节点进行交互
+    container_name: cli2  #客户端容器名称
+    image: hyperledger/fabric-tools:latest  #该服务所依赖的镜像
+    tty: true   #使用伪终端
+    stdin_open: true   #标准输入
+    environment:   #环境变量
+      - GOPATH=/opt/gopath    #指定go的路径，不需要修改
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock   #docker容器启动之后，对应的守护进程的本地套接字，不需修改
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO   #日志级别
+      - CORE_PEER_ID=cli2    #当前节点的Id
+      - CORE_PEER_ADDRESS=peer0.orghospital.trace.com:7051   
+      - CORE_PEER_LOCALMSPID=OrgHospitalMSP     #所属组织Id
+      - CORE_PEER_TLS_ENABLED=true        #通信是否使用tls加密，CORE_PEER_TLS_ENABLED=fasle下面的tls配置就不需要设置，否则需要指定
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orghospital.trace.com/peers/peer0.orghospital.trace.com/tls/server.crt   #证书文件
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orghospital.trace.com/peers/peer0.orghospital.trace.com/tls/server.key    #私钥文件
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orghospital.trace.com/peers/peer0.orghospital.trace.com/tls/ca.crt   #根证书文件
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/orghospital.trace.com/users/Admin@orghospital.trace.com/msp   #指定当前客户端的身份
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer     #工作目录，即进入容器所在的默认位置
+    command: /bin/bash   #启动容器后所运行的第一条命令：使用bash
+    volumes:    #挂载卷
+        - /var/run/:/host/var/run/
+        - ./chaincode/:/opt/gopath/src/github.com/chaincode  #链码
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/  #所有的证书，
+        # 因为我们现在手动写命令，所以先注释
+        #- ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts    #之前生成的文件。
+    depends_on:   #依赖，需要首先按顺序启动以下容器,但是不会等待以下容器完全启动才启动当前容器
+      - peer0.orghospital.trace.com
+    networks:    #指定当前容器所加入的网络
+      default:
+        aliases:
+          - trace

@@ -1,0 +1,162 @@
+{{template "../../public/page_header.html"}}
+
+<script type="text/javascript" src="/static/admin/js/jqPaginator.js"></script>
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    body {
+        background-color: #f2f2f2;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading" style="background: #d4e3e5">
+        <span>协议签订</span>
+    </div>
+    <!--
+        搜索展示
+        -->
+    <div class="panel-body">
+        <form role="form" class="form-inline" method="get" action="/{{config "String" "adminPath" ""}}/signContract">
+            <div class="form-group">
+                <label for="name">输入关键词</label>
+                <input type="text" class="form-control" value="{{.keyword}}" id="keyword" name="keyword" placeholder="请输入名称">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class=" btn btn-default">开始搜索</button>
+
+            </div>
+        </form>
+    </div>
+    <div class="panel-body">
+        <!--
+        列表展示
+        -->
+        <div class="table-responsive">
+            <table class="table table-bordered hovertable">
+                <thead>
+                <tr class="th">
+                    <th>订单号</th>
+                    <th>总用户号</th>
+                    <th>用户类型</th>
+                    <th>公司名称</th>
+                    <th>联系电话</th>
+                    <th>联系地址</th>
+                    <th>小组初审</th>
+                    <th>主管复审</th>
+                    <th>协议签订</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {{range $key,$value:= .orderDemandList}}
+                    <tr>
+                        <td>{{$value.OrderId}}</td>
+                        <td>{{$value.Uid}}</td>
+                        <td>
+                            {{if eq $value.UserType 1}}
+                                普通用户
+                            {{else if eq $value.UserType 2}}
+                                高级用户
+                            {{else}}
+                                资深用户
+                            {{end}}
+                        </td>
+                        <td>{{$value.CName}}</td>
+                        <td>{{$value.Phone}}</td>
+                        <td>{{$value.Address}}</td>
+
+                        <td>
+                            {{if eq $value.FirstTrial 0}}
+                                未审核
+                            {{else if eq $value.FirstTrial 1}}
+                                审核通过
+                            {{else}}
+                                审核拒绝
+                            {{end}}
+                        </td>
+                        <td>
+                            {{if eq $value.Review 0}}
+                                未审核
+                            {{else if eq $value.Review 1}}
+                                复审通过
+                            {{else}}
+                                复审拒绝
+                            {{end}}
+                        </td>
+                        <td>
+                            {{if eq $value.SignContract 0}}
+                                未签订
+                            {{else if eq $value.SignContract 1}}
+                                已签订
+                            {{else}}
+                                签订取消
+                            {{end}}
+                        </td>
+
+                        <td class="text-center">
+                                <a href="/{{config "String" "adminPath" ""}}/signContract/sign?orderId={{$value.OrderId}}">签订</a> 　
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+            <div id="pagination" class="pagination fr">
+            </div>
+        </div>
+        <div class="goods_Page">
+            每页显示数量:{{.pageSize}}，
+            总数：{{.totalCount}}
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $("#pagination").jqPaginator({
+            //页数
+            totalPages: {{.totalPages}},
+            //每页数量
+            pageSize:  {{.pageSize}},
+            //当前第几页
+            currentPage: {{.page}},
+            /*
+            一开始加载分页插件就会激活这个函数，以后点击任何一个页面按钮也会激活这个事件
+            有两个参数：
+            1. num表示点第几页
+            2. type表示操作类型，有两个取值：init表示第1次加载 change表示后面的点击
+             */
+            onPageChange: function (num, type) {
+                // console.log(num, type)
+                if (type === "change") {
+                    location.href = "/{{config "String" "adminPath" ""}}/signContract?page=" + num+"&keyword={{.keyword}}";
+                }
+            }
+        });
+    })
+</script>
+</body>
+</html>

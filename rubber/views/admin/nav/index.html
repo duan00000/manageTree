@@ -1,0 +1,116 @@
+{{template "../public/page_header.html" .}}
+<script type="text/javascript" src="/static/admin/js/jqPaginator.js"></script>
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading" style="background: #d4e3e5">
+        <a href="/{{config "String" "adminPath" ""}}/nav/add" class="btn btn-primary">增加导航</a>
+    </div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="hovertable" >
+                <thead>
+                <tr class="th">
+                    <th>导航名称</th>
+                    <th>关联商品</th>
+                    <th>跳转地址</th>
+                    <th>导航位置</th>
+                    <th class="text-center">排序</th>
+                    <th class="text-center">状态</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $key,$value := .navList}}
+                    <tr>
+                        <td>{{$value.Title}}</td>
+                        <td>{{$value.Relation}}</td>
+                        <td>{{$value.Link}}</td>
+                        <td>
+                            {{if eq $value.Position 1}}
+                                顶部
+                            {{else if  eq $value.Position 2}}
+                                中间
+                            {{else if eq $value.Position 3}}
+                                底部
+                            {{end}}
+                        </td>
+                        <td class="text-center">
+
+                            <span class="chSpanNum" data-id="{{$value.Id}}" data-table="nav" data-field="sort"
+                                  data-num="{{$value.Sort}}">{{$value.Sort}}</span>
+                        </td>
+                        <td align="center">
+                            {{if eq $value.Status 1}}
+                                <img src="/static/admin/images/yes.png" width="40" class="chStatus"
+                                     data-id="{{$value.Id}}" data-table="nav" data-field="status"/>
+                            {{else}}
+                                <img src="/static/admin/images/no.png" width="40" class="chStatus"
+                                     data-id="{{$value.Id}}" data-table="nav" data-field="status"/>
+                            {{end}}
+                        </td>
+
+                        <td class="text-center">
+                            <a href="/{{config "String" "adminPath" ""}}/nav/edit?id={{$value.Id}}">修改</a> 　
+
+                            <a class="delete"
+                               href="/{{config "String" "adminPath" ""}}/nav/delete?id={{$value.Id}}">删除</a>
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+            <div id="pagination" class="pagination fr">
+
+            </div>
+        </div>
+        <div class="goods_Page">
+            每页显示商品数:{{.pageSize}}，
+            商品总数：{{.totalCount}}
+        </div>
+    </div>
+</div>
+<script>
+
+    $(function () {
+        $('#pagination').jqPaginator({
+            totalPages: {{.totalPages}},
+            pageSize:{{.pageSize}},
+            currentPage: {{.page}},
+            onPageChange: function (num, type) {
+                // console.log(num,type)
+                if (type === "change") {
+                    location.href = "/{{config "String" "adminPath" ""}}/nav?page=" + num;
+                }
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

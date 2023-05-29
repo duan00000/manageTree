@@ -1,0 +1,67 @@
+{{template "../public/page_header.html" .}}
+{{template "../public/banner.html" .}}
+<link rel="stylesheet" href="/static/front/css/welcome.css"/>
+
+<!-- self_info -->
+<div class="grzxbj">
+    <div class="selfinfo center">
+        <div class="lfnav fl">
+            <div class="ddzx">用户中心</div>
+            <div class="subddzx">
+                {{template "../public/user_left.html" .}}
+            </div>
+
+        </div>
+        <div class="rtcont fr">
+            <div class="portal-content-box">
+
+                <div class="box-bd">
+                    <div class="portal-main clearfix">
+                        <div class="user-actions">
+                            <ul class="action-list">
+                                <input type="hidden" name="id" id="id"  value="{{.userInfo.Id}}">
+                                <li>用户名称: <input  type="text" id="username" name="username"
+                                                  value="{{.userInfo.Username}}"/></li>
+                                <li>用户电话: <input  type="text" id="phone"  name="phone" value="{{.userInfo.Phone}}"/></li>
+                                <li>用户邮箱: <input  type="text" id="email" name="email" value="{{.userInfo.Email}}"/></li>
+                                <div id="changePd">
+                                    <li>修改密码: <button type="button" class="btn" id="changeUserPassword">修改密码</button></li>
+
+                                </div>
+
+                                {{if eq .userInfo.Status 0}}
+                                    <li>账户状态：<span class="level level-2">安全</span></li>
+                                {{else}}
+                                    <li>账户状态：<span class="level level-2">非法</span></li>
+                                {{end}}
+                                <li>创建时间：<span class="tel">{{.userInfo.AddTime | unixToDate}}</span></li>
+                            </ul>
+                            <div>
+                                <div class="error">
+                                </div>
+                                <div class="success">
+                                </div>
+                            </div>
+
+                            <button class="delete btn btn-primary" id="changeUserInfo">
+                                修改信息
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<!-- self_info -->
+
+{{template "../public/page_footer.html" .}}
+<script src="/static/front/js/userInfo.js"> </script>
+
+
+</body>
+
+</html>

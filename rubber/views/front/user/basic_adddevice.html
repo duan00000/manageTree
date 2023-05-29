@@ -1,0 +1,55 @@
+{{template "../public/page_header0.html" .}}
+
+<div class="container-fluid" style="border: 1px solid #000000; width: 900px; height: 500px;margin: 0 auto;border:none;">
+  <div class="row">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        dsm平台设备
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive input-form">
+          <form action="/{{config "String" "adminPath" ""}}/nav/doEdit" method="post">
+          <ul>
+            <li>
+            <input type="checkbox" id="one1" name="fu"  value="1"/>
+            <label for="one1">一级炼精设备</label>
+          </li>
+          <div class="checkbox-group">
+            <input type="checkbox" id="one2" name="fu"/>
+            <label for="one2">一级炼精设备</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="one3" name="fu"/>
+            <label for="one3">一级炼精设备</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="one4" name="fu"/>
+            <label for="one4">一级炼精设备</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="one5" name="fu"/>
+            <label for="one5">一级炼精设备</label>
+          </div>
+            <li>
+              <br/>
+              <button type="submit" class="btn btn-primary">确定</button>
+              <input class="prevPage_btn" type="button" id="prevPage" value="关闭">
+
+            </li>
+          </ul>
+
+
+          </form>
+      </div>
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

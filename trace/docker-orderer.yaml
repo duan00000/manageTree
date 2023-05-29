@@ -1,0 +1,32 @@
+version: '2'  #docker-compose版本
+services:
+  orderer.trace.com:   #定义一个名为orderer.trace.com的服务
+    container_name: orderer.trace.com     
+    # 在docker images 显示的镜像中，选择相应的版本替换掉原来的。
+    image: hyperledger/fabric-orderer:latest
+    environment:   #orderer排序节点需要使用的环境变量
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=trace_default  
+      - ORDERER_GENERAL_LOGLEVEL=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0   #orderer节点监听的地址
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_GENESISMETHOD=file      #初始化块（Genesis）的来源方式，一般赋值为file即可
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block   #存储初始块文件的路径
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP              #orderer节点的编号，在configtxgen模块配置文件中指定。
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp     #orderer节点msp文件路径
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true         
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key    #私钥
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt   #证书
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]         #根证书
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric    #排序节点工作路径
+    command: orderer    #执行命令
+    volumes:   #映射，把本地目录的东西映射到镜像
+    - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block       #创世块文件映射到/var/hyperledger/orderer/orderer.genesis.block
+    - ./crypto-config/ordererOrganizations/trace.com/orderers/orderer.trace.com/msp:/var/hyperledger/orderer/msp        #意义同上
+    - ./crypto-config/ordererOrganizations/trace.com/orderers/orderer.trace.com/tls/:/var/hyperledger/orderer/tls
+    networks:    #此处注意修改
+      default:   #使用一个默认的网络 
+        aliases:  #给默认的网络重新命名
+          - trace  #此处网络名需要和目录名相同，不要随意命名，如果不同，多机就不能互相访问
+    ports:   #从本地端口7050转发到docker容器的7050
+      - 7050:7050

@@ -1,0 +1,89 @@
+{{template "../public/page_header.html"}}
+<style type="text/css">
+    table.hovertable {
+        width: 100%;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 15px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding:10px 58px 15px 58px;
+        border-style: solid;
+        border-color: #a9c6c9;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="table-responsive">
+            <table class="hovertable">
+                <thead>
+                <tr class="th">
+                    <th>橡树种类</th>
+                    <th>分布区域</th>
+                    <th>轮播图图片</th>
+                    <th>品种特征</th>
+                    <th class="text-center">排序</th>
+                    <th class="text-center">状态</th>
+                    <th class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{range $key,$value := .focusList}}
+                    <tr>
+                        <td>{{$value.Title}}</td>
+                        <td>
+                            {{if eq $value.FocusType 1}}
+                                西部橡胶林
+                            {{else if eq $value.FocusType 2}}
+                                中部橡胶林
+                            {{else}}
+                                东部橡胶林
+                            {{end}}
+                        </td>
+                        <td>
+                            {{if ne $value.FocusImg ""}}
+                                <img src="{{$value.FocusImg | formatImg}}" width="80"/>
+                            {{end}}
+                        </td>
+                        <td>{{$value.Link}}</td>
+                        <td class="text-center">
+                            <span class="chSpanNum" data-id="{{$value.Id}}" data-table="focus" data-field="sort" data-num="{{$value.Sort}}">{{$value.Sort}}</span>
+                        </td>
+                        <td align="center">
+                            {{if eq $value.Status 1}}
+                                <img  src="/static/admin/images/yes.png" width="40" class="chStatus" data-id="{{$value.Id}}" data-table="focus" data-field="status"/>
+                            {{else}}
+                                <img src="/static/admin/images/no.png"  width="40" class="chStatus" data-id="{{$value.Id}}" data-table="focus" data-field="status"/>
+                            {{end}}
+                        </td>
+
+                        <td class="text-center">
+                            <a href="/{{config "String" "adminPath" ""}}/focus/edit?id={{$value.Id}}">修改</a> 　
+
+                            <a class="delete" href="/{{config "String" "adminPath" ""}}/focus/delete?id={{$value.Id}}">删除</a>
+                        </td>
+                    </tr>
+                {{end}}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

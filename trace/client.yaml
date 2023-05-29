@@ -1,0 +1,40 @@
+version: '3'
+
+volumes:
+  org0_wallet:
+  
+
+networks:
+  trace:
+
+services:
+  org0_client:
+    image: siyuan/client:1
+    restart: unless-stopped
+    container_name: org0_client
+    environment:
+      - PORT=3001
+      - API_VERSION=v1.0
+      - MSPID=OrgProcessMSP
+      - PEER_ADDRESS=grpcs://172.20.27.70:7051
+      - PEER_DOMAIN=peer0.orgprocess.trace.com
+      - CHANNEL_NAME=mychannel
+      - CHAINCODE_NAME=west369
+      - WALLET_PATH=/wallet
+      - PRIVATE_KEY=/certs/peerOrganizations/orgprocess.trace.com/users/Admin@orgprocess.trace.com/msp/keystore/priv_sk
+      - CERTIFICATE=/certs/peerOrganizations/orgprocess.trace.com/users/Admin@orgprocess.trace.com/msp/signcerts/Admin@orgprocess.trace.com-cert.pem
+      - PEER_TLS_CERT=/certs/peerOrganizations/orgprocess.trace.com/peers/peer0.orgprocess.trace.com/tls/ca.crt
+      - ORG_NAME=OrgProcess
+      - PEER0_ORG0_DOMAIN=peer0.orgprocess.trace.com
+      - PEER0_ORG0_ADDRESS=grpcs://peer0.orgprocess.trace.com:7051
+      - PEER0_ORG0_TLS_CERT=/certs/peerOrganizations/orgprocess.trace.com/peers/peer0.orgprocess.trace.com/tls/ca.crt      
+      - ORDERER0_ORG0_DOMAIN=orderer.trace.com
+      - ORDERER0_ORG0_ADDRESS=grpcs://orderer.trace.com:7050
+      - ORDERER0_ORG0_TLS_CERT=/certs/ordererOrganizations/trace.com/orderers/orderer.trace.com/tls/ca.crt
+    volumes:
+      - /home/jsj/qkl/trace/crypto-config:/certs
+      - org0_wallet:/wallet
+    ports:
+      - 3005:3001
+    networks:
+      - trace

@@ -1,0 +1,383 @@
+{{template "../public/page_header0.html" .}}
+
+
+
+<div class="container-fluid" style="border: 1px solid #000000; width: 900px; height: 500px;margin: 0 auto;border:none;">
+  <style type="text/css">
+   .divcss5{text-align: center;line-height: 60px;font-weight: bold;font-size:18px}
+   .select{width:200px;height: 23.64px}
+
+  </style>
+  <div class="row">
+    <div class="panel panel-default">
+      <div class="divcss5">
+        需求响应申请
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive input-form ne::ws_content">
+          <form action="/need/doEdit" method="post" enctype="multipart/form-data">
+
+
+          <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"  ><a href="#message0" role="tab"
+                                                      data-toggle="tab" id="link7">基本信息</a></li>
+            <li role="presentation"><a id ="link" href="#device" role="tab" data-toggle="tab">签约设备</a></li>
+            <li role="presentation"><a href="#ability" role="tab" id="link1" data-toggle="tab">响应能力</a></li>
+            <li role="presentation"><a id ="link0" href="#up" role="tab" data-toggle="tab">上传资料</a></li>
+
+          </ul>
+
+          <div class="tab-content">
+
+            <div role="tabpanel" class="tab-pane active" id="message0">
+              <ul class="form-group" >
+                <li style="text-align-last:left;display:inline-block;">
+                  <span>总用户号  </span> <input type="text" class="input" name="basic_id" value="{{.need.Id}}"/>
+                </li>
+                <li style="display:inline-block;text-align:left;padding: 0px 0px 0px 120px">
+                  <span>用户类型 </span>   <select name="focus_type" id="type0" class="select">
+                    <option value="1">普通用户</option>
+                    <option value="2">超级用户</option>
+                    <option value="3">后台管理员</option>
+                  </select>
+
+                </li>
+
+                <li style="text-align-last:left;display:inline-block;text-align:left;">
+                  <span>用户名称  </span> <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                </li>
+                <li style="display:inline-block;text-align:left;;padding: 0px 0px 0px 120px">
+                  <span>地区  </span>  <select name="focus_type" id="type1" class="select">
+                    <option value="1">东海县</option>
+                    <option value="2">北海县</option>
+                    <option value="3">南海县</option>
+                  </select>
+                </li>
+
+                <li style="text-align-last:left;display:inline-block;">
+                  <span>签约编号  </span> <input type="text" class="input" name="basic_name" value="{{.need.BasicContract}}"/>
+                </li>
+                <li style="display:inline-block;;padding: 0px 0px 0px 120px">
+                  <span>参与年份  </span> <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                </li>
+
+                <li style="text-align-last:left;display:inline-block;">
+                  <span>第一联系人姓名</span> <input type="text" class="input" name="basic_name" value="{{.need.BasicContract}}"/>
+                </li>
+
+                <li style="display:inline-block;padding: 0px 0px 0px 120px">
+                  <span>第一联系人方式  </span> <input type="text" required  class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                </li>
+
+
+                <li style="text-align-last:left;display:inline-block;" >
+                  <span>第二联系人姓名</span> <input type="text" class="input" name="basic_name" value="{{.need.BasicContract}}"/>
+                </li>
+                <li style="display:inline-block;padding: 0px 0px 0px 120px">
+                  <span>第二联系人方式  </span> <input  type="text"   class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                </li>
+                <li style="text-align-last:left;display:inline-block;">
+                  <span>合同容量  </span> <input type="text" class="input" required  name="basic_name" value="{{.need.BasicContract}}"/>
+                </li>
+
+                <li style="display:inline-block;padding: 0px 0px 0px 120px">
+                  <span>运行容量</span> <input type="text" class="input" required  name="basic_name" value="{{.need.BasicName}}"/>
+                </li>
+
+                <li style="text-align-last:left;display:inline-block;">
+                  <span>联系地址</span> <input type="text" class="input" name="basic_name" value="{{.need.BasicContract}}"/>
+                </li>
+
+
+                <li style="display:inline-block;padding: 0px 0px 0px 120px">
+                  <span>税务登记证</span> <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                </li>
+
+                <li style="text-align-last:left;display:inline-block;">
+                  <span>是否实现电能在线监测并接入省平台</span>
+                  <select name="focus_type" id="type2" class="select">
+                    <option value="1">已接入</option>
+                    <option value="2">未接入</option>
+                  </select>
+                </li>
+
+              </ul>
+              <div style="width: 100%;height: 100px;text-align:center;">
+                <button  style="width: 100px;" type="submit" class="btn btn-success goods_content_btn" href="#device">✔保存</button>
+                <button id ="btn" style="width: 100px;" type="button" class="btn btn-success goods_content_btn" >✔下一步</button>
+                <button style="width: 100px;" type="button"  onclick="javascript:history.back(-1);"  class="btn btn-success goods_content_btn" href="#device">✖返回</button>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="device">
+                 <div class="panel-body">
+
+                    <ul class="form_input" >
+                      <li style="text-align-last:left;display:inline-block;"> 子用户号 <input type="text" name="son_id" style="width: 100px"/></li>
+                      <li style="text-align-last:left;display:inline-block;"> 子用户名 <input type="text" name="son_name" style="width: 100px"/></li>
+                      <li style="text-align-last:left;display:inline-block;">地区
+                        <select name="focus_type" id="area">
+                          <option value="1">未选择</option>
+                          <option value="2">已选择</option>
+                        </select>
+                      </li>
+                      <li style="text-align-last:left;display:inline-block;">提前通知时间
+                        <select name="focus_type" id="two1">
+                          <option value="1">提前四小时以上合同量</option>
+                          <option value="2">提前六小时以上合同量</option>
+                        </select>
+                        <button  class="btn btn-success goods_content_btn">查询</button>
+                      </li>
+
+
+                    </ul>
+                  <div>
+
+                  <a href="/basic" class="btn btn-primary">从省平台添加子用户</a>
+                  <!--
+                  列表展示
+                  -->
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                      <tr class="th">
+                        <th>序号</th>
+                        <th>用户号</th>
+                        <th>用户名称</th>
+                        <th>地区</th>
+                        <th>可响应负荷</th>
+                        <th>联系电话</th>
+                        <th>时段1&nbsp06:00~08:00合同响应量</th>
+                        <th>时段2&nbsp0:00~11:00合同响应量</th>
+                        <th>时段3&nbsp13:00~15:00合同响应量</th>
+                        <th>时段4&nbsp21:00~22:00合同响应量</th>
+                        <th class="text-center">操作</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {{range $key,$value:= .Need}}
+                      <tr>
+                        <td>{{$value.BasicName}}</td>
+                        <td>{{$value.BasicName}}</td>
+
+                        <td class="text-center">
+                          <a href="/{{config "String" "adminPath" ""}}/need/edit?id={{$value.Id}}">修改</a> 　
+                        </td>
+                      </tr>
+                      {{end}}
+                      </tbody>
+                    </table>
+                    <div id="pagination1" class="pagination fr">
+                    </div>
+                  </div>
+                    <div class="goods_Page" style="float: left">
+                      每页显示信息数:{{.pageSize}}，
+                      信息总数：{{.totalCount}}
+                    </div>
+                    <div style="clear:both">
+                    <a href="/basicson" class="btn btn-primary">从省平台添加设备</a>
+                    <!--
+                    列表展示
+                    -->
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <thead>
+                        <tr class="th">
+                          <th>序号</th>
+                          <th>参与设备</th>
+                          <th>监测点</th>
+                          <th>设备容量</th>
+                          <th>是否可监测</th>
+                          <th>是否参与</th>
+                          <th>参与方式</th>
+                          <th>可响应负荷</th>
+                          <th class="text-center">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{range $key,$value:= .frontUserList}}
+                        <tr>
+                          <td>{{$value.Username}}</td>
+                          <td>{{$value.Phone}}</td>
+                          <td>{{$value.Email}}</td>
+                          <td>{{$value.AddTime | unixToDate}}</td>
+                          <td align="center">
+                            {{if eq $value.Status 0}}
+                            <img  src="/static/admin/images/yes.png" width="40" class="chStatus" data-id="{{$value.Id}}" data-table="user" data-field="status"/>
+                            {{else}}
+                            <img src="/static/admin/images/no.png"  width="40" class="chStatus" data-id="{{$value.Id}}" data-table="user" data-field="status"/>
+                            {{end}}
+                          </td>
+                          <td class="text-center">
+                            <a href="/{{config "String" "adminPath" ""}}/frontUser/edit?id={{$value.Id}}">修改</a>
+                            <a class="delete" href="/{{config "String" "adminPath" ""}}/frontUser/delete?id={{$value.Id}}">删除</a>
+                            <a href="/{{config "String" "adminPath" ""}}/frontUser/delete?id={{$value.Id}}">查看曲线</a>　
+                          </td>
+                        </tr>
+                        {{end}}
+                        </tbody>
+                      </table>
+                      <div id="pagination" class="pagination fr">
+                      </div>
+                    </div>
+                    <div class="goods_Page" style="float: left">
+                      每页显示信息数:{{.pageSize}}，
+                      信息总数：{{.totalCount}}
+                    </div>
+
+                </div>
+
+              </div>
+              <div style="width: 100%;height: 100px;text-align:center;">
+
+                <button id ="btn5" style="width: 100px;" type="button" class="btn btn-success goods_content_btn">✔下一步</button>
+                <button style="width: 100px;" type="button"  id ="btn6"  class="btn btn-success goods_content_btn">✖返回</button>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="ability" >
+              <h5>
+                <span style="font-weight:bold;">约定响应能力(提前4小时以上邀约&nbsp&nbsp&nbsp单位：kW)  </span>
+              </h5>
+              <ul class="form_input">
+
+                <li style="text-align-last:left;display:inline-block;">
+                  凌晨(06:00~08:00) <input type="text" class="input"  name="basic_id" value="{{.need.Id}}"/>
+                </li>
+
+                <li style="float:right;display:inline-block;">
+                 早(9:00~11:00) <input type="text" class="input"  name="basic_id" value="{{.need.Id}}"/>
+                </li>
+
+                </li>
+                <li style="text-align-last:left;display:inline-block;">
+                 腰(13:00~15:00)&nbsp&nbsp&nbsp&nbsp <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                </li>
+                <li style="float:right;display:inline-block;">
+                  晚(21:00~22:00) <input type="text" class="input"  name="basic_id" value="{{.need.Id}}"/>
+                </li>
+              </ul>
+              <h5>
+                <span style="font-weight:bold;">约定响应能力(提前0.5-4小时邀约&nbsp&nbsp&nbsp单位：kW)  </span>
+              </h5>
+              <ul class="form_input">
+                <li style="text-align-last:left;display:inline-block;">
+                  凌晨(06:00~08:00) <input type="text" class="input"  name="basic_id" value="{{.need.Id}}"/>
+                </li>
+
+                <li style="float:right;display:inline-block;">
+                  早(9:00~11:00) <input type="text" class="input"  name="basic_id" value="{{.need.Id}}"/>
+                </li>
+
+                </li>
+                <li style="text-align-last:left;display:inline-block;">
+                  腰(13:00~15:00)&nbsp&nbsp&nbsp&nbsp <input type="text" class="input" name="basic_name" value="{{.need.BasicName}}"/>
+                </li>
+                <li style="float:right;display:inline-block;">
+                  晚(21:00~22:00) <input type="text" class="input"  name="basic_id" value="{{.need.Id}}"/>
+                </li>
+                <li style="display:inline-block;text-align:center;text-align:left;">
+                  能够实时响应&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                  <select name="focus_type" id="type6" class="select" class="select">
+                    <option value="1">是</option>
+                    <option value="2">否</option>
+
+                  </select>
+
+                </li>
+              </ul>
+              <div style="width: 100%;height: 100px;text-align:center;">
+                <button  style="width: 100px;" class="btn btn-success goods_content_btn">✔保存</button>
+                <button id ="btn0" style="width: 100px;" type="button" class="btn btn-success goods_content_btn">✔下一步</button>
+                <button style="width: 100px;" type="button"  id ="btn1"  class="btn btn-success goods_content_btn">✖返回</button>
+              </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="up" >
+              <div style="background: #F0F0F0">
+              <div>
+
+                <button  style="float: left;margin: 20px;height: 30px" type="submit" >上传营业执照</button>
+
+              </div>
+              <div>
+
+                <text>———————————————————————————————————————————————————————————</text>
+
+              </div>
+              <div>
+
+                <button  style="float: left;margin: 20px;height: 30px" type="submit" >上传企业介绍</button>
+                <span style="float:right;margin-right:500px;margin-top:30px;">已上传企业介绍：无</span>
+              </div>
+              <div class="clear" ></div>
+              <div>
+                <span style="margin-left: 20px;">（普通用户需上传公司简介，企业能用电情况等资料。</span>
+
+
+              </div>
+              <div>
+                <span style="margin-left: 20px;">负荷集成商需上传：公司简介（包括电能服务商业模式及有</span>
+              </div>
+              <div>
+                <span style="margin-left: 20px;">关业务开展情况）、资质证明材料等资料。）</span>
+              </div>
+              <div>
+
+                <text>———————————————————————————————————————————————————————————</text>
+
+              </div>
+              <div>
+
+                <span style="margin-left: 20px;">已上传合同：</span>
+
+              </div>
+              <div>
+
+                <text>———————————————————————————————————————————————————————————</text>
+
+              </div>
+              </div>
+              <div style="width: 100%;height: 100px;text-align:center;">
+                <button  style="width: 100px;" class="btn btn-success goods_content_btn">✔完成</button>
+                <button style="width: 100px;" type="button" id="btn2"class="btn btn-success goods_content_btn">✔返回</button>
+
+              </div>
+
+
+          </div>
+          </div>
+
+          </form>
+
+        </div>
+      </div>
+
+
+    </div>
+    </div>
+  </div>
+</div>
+  <script>
+    document.getElementById("btn").onclick=function(){
+      document.getElementById("link").click();
+    }
+    document.getElementById("btn0").onclick=function(){
+      document.getElementById("link0").click();
+    }
+    document.getElementById("btn1").onclick=function(){
+        document.getElementById("link").click();
+    }
+    document.getElementById("btn2").onclick=function(){
+        document.getElementById("link1").click();
+    }
+    document.getElementById("btn5").onclick=function(){
+      document.getElementById("link1").click();
+    }
+    document.getElementById("btn6").onclick=function(){
+      document.getElementById("link7").click();
+    }
+  </script>
+</body>
+</html>

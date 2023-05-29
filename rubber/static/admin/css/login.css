@@ -1,0 +1,98 @@
+
+@CHARSET "UTF-8";
+body {
+	/*background:#01458E;*/
+	background:url(../images/tree2.jpg) no-repeat ;
+	background-size: 100%;
+
+}
+#login {
+	width:800px;
+	height:400px;
+	background:url(../images/loginbg.jpg) no-repeat left center;
+	margin:120px auto 0 auto;
+	/*调整透明度*/
+	filter: alpha(opacity=80);
+	-moz-opacity: 0.8;
+	opacity: 0.8;
+}
+#login dl{
+	width:600px;
+	margin:0 0 0 auto;
+	padding:30px 0 0 20px;
+	color:#01458E;
+	float:left;
+	font-size:30px;
+}
+#login dl dd {
+	margin:16px 0;
+	height:32px;
+	line-height:32px;
+}
+#login dl dd input.text {
+	width:280px;
+	height:30px;
+	line-height:30px;
+	font-size: 30px;
+}
+#login dl dd input.cap_cha{
+
+	line-height:30px;
+	font-size: 25px;
+}
+.t_size{
+	padding: 70px 300px 0;
+}
+#login dl dd input.submit {
+	border:none;
+	cursor:pointer;
+	width:200px;
+	height:50px;
+	background: url("../images/in1.png") no-repeat center;
+}
+#login dl dd.code {
+	padding:0 0 0 72px;
+}
+#login dl dd.code img {
+	border:1px solid #eee;
+	cursor:pointer;
+}
+#verify{
+	height:30px;
+	line-height:30px;
+	width: 90px;
+	margin-right:3px;
+}
+#verify_img{
+	cursor:pointer;
+	position: relative;
+	top:12px;
+}
+/*管理员输入密码框样式*/
+.password_icon {
+	width:250px;
+	height:32px;
+	line-height:30px;
+	font-size: 25px;
+	border: 0;
+	background: #ffffff url("/static/admin/images/login_pd.gif") no-repeat 0px 0px;
+	padding-left: 35px;
+}
+.little_text{
+	font-size: 5px;
+}
+/*.captcha-img{*/
+/*	*/
+
+/*}*/
+.l_title{
+	height:40px;
+	line-height:40px;
+	font-size:50px;
+	/*padding-left:5px;*/
+	padding-top:20px;
+	color:#01458e;
+	font-weight:bold;
+	text-align: center;
+
+}
